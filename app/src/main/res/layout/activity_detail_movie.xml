@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="movieDetail"
             type="com.cuongngo.cinemax.response.MovieDetailResponse" />
@@ -216,13 +215,9 @@
                             app:srcCompat="@drawable/ic_share" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.core.widget.NestedScrollView>
-
         <FrameLayout
             android:id="@+id/fr_app_bar"
             android:layout_width="match_parent"
