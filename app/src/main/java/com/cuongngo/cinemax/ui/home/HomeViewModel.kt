@@ -1,8 +1,7 @@
-package com.cuongngo.cinemax.ui.movie
+package com.cuongngo.cinemax.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cuongngo.cinemax.base.viewmodel.BaseViewModel
 import com.cuongngo.cinemax.response.MovieDetailResponse
@@ -13,12 +12,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieViewModel (private val movieRepository: MovieRepository): BaseViewModel() {
+class HomeViewModel (private val movieRepository: MovieRepository): BaseViewModel() {
     private val _movieDetail = MutableLiveData<BaseResult<MovieDetailResponse>>()
     val movieDetail: LiveData<BaseResult<MovieDetailResponse>> get() = _movieDetail
 
     private val _listMovie = MutableLiveData<BaseResult<MovieResponse>>()
     val listMovie: LiveData<BaseResult<MovieResponse>> get() = _listMovie
+
+    init {
+        getUpcoming()
+    }
 
     fun getMovieDetail(
         movieId: String?

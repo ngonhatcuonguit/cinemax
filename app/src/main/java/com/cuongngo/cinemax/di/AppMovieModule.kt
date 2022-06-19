@@ -6,6 +6,7 @@ import com.cuongngo.cinemax.services.MovieApi
 import com.cuongngo.cinemax.services.network.invoker.NetworkConnectionInterceptor
 import com.cuongngo.cinemax.services.remote.MovieRemoteDataSource
 import com.cuongngo.cinemax.services.repository.MovieRepository
+import com.cuongngo.cinemax.ui.home.HomeViewModel
 import com.cuongngo.cinemax.ui.movie.MovieViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -25,5 +26,8 @@ val appMovieModule = Kodein.Module(APP_MODULE, false) {
     bind<ViewModelProvider.Factory>() with singleton { ViewModelFactory(kodein.direct) }
     bindViewModel<MovieViewModel>() with provider {
         MovieViewModel(instance())
+    }
+    bindViewModel<HomeViewModel>() with provider {
+        HomeViewModel(instance())
     }
 }

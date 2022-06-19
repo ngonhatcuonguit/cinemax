@@ -8,4 +8,7 @@ class MovieRemoteDataSource(private val apiService: MovieApi) : BaseRemoteDataSo
     suspend fun getMovieDetail(
         movie_id: String?
     ) = getResult { apiService.getMovieDetail(movie_id) }
+
+    //get upcoming
+    suspend fun getUpcoming() = getResult { apiService.getUpcoming() }
 }

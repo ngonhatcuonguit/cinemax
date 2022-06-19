@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1F1D2B">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/default_avatar"
+            android:padding="5dp"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="top"
+            android:text="Hello, Smith"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/img_avatar"
+            app:layout_constraintTop_toTopOf="@id/img_avatar" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_description_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="bottom"
+            android:text="Let’s stream your favorite movie"
+            android:textColor="#92929D"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+            app:layout_constraintStart_toEndOf="@id/img_avatar" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_wishlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toBottomOf="@id/img_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/img_avatar"
+            app:srcCompat="@drawable/ic_wishlist_active" />
+
+        <carbon.widget.ConstraintLayout
+            android:id="@+id/cl_search"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:background="#252836"
+            app:carbon_cornerRadius="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_welcome">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_search_gray" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:background="@null"
+                android:ellipsize="end"
+                android:hint="Searc a title.."
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="#92929D"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/view_space"
+                app:layout_constraintStart_toEndOf="@id/iv_search"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_space"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:background="#696974"
+                app:layout_constraintBottom_toBottomOf="@id/iv_filter"
+                app:layout_constraintEnd_toStartOf="@+id/iv_filter"
+                app:layout_constraintTop_toTopOf="@id/iv_filter" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_filter" />
+        </carbon.widget.ConstraintLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_top_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="154dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_search" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
