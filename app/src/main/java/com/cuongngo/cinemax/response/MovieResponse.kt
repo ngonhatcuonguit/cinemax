@@ -4,7 +4,9 @@ import java.io.Serializable
 
 data class MovieResponse(
     val page: Int?,
-    val results: ArrayList<Movie>?
+    val total_pages: Int?,
+    val total_results: Int?,
+    val results: List<Movie>?
 ) : BaseModel()
 
 data class Movie(

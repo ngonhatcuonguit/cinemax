@@ -15,4 +15,10 @@ class MovieRepository( private val movieRemoteDataSource: MovieRemoteDataSource)
     suspend fun getUpcoming (): BaseResult<MovieResponse> {
         return movieRemoteDataSource.getUpcoming()
     }
+
+    suspend fun getPopularMovie(
+        page: Int?
+    ): BaseResult<MovieResponse> {
+        return movieRemoteDataSource.getPopularMovie(page)
+    }
 }

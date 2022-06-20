@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="movie"
+            type="com.cuongngo.cinemax.response.Movie" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
+        <carbon.widget.ConstraintLayout
+            android:layout_width="135dp"
+            android:layout_height="231dp"
+            android:background="#252836"
+            app:carbon_cornerRadius="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <carbon.widget.ImageView
+                android:id="@+id/iv_poster"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                loadImagePath="@{movie.poster_path}"
+                android:scaleType="fitCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:text="@{movie.title}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_poster"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#92929D"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:text="Action"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                />
+            <carbon.widget.FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:carbon_cornerRadius="8dp"
+                android:background="#52252836"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5"
+                    android:textStyle="bold"
+                    android:textColor="#FF8700"
+                    android:textSize="12sp"
+                    android:drawableStart="@drawable/ic_start_rating"
+                    android:drawablePadding="4dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+            </carbon.widget.FrameLayout>
+
+        </carbon.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,6 +1,11 @@
 package com.cuongngo.cinemax
 
 import android.app.Application
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleObserver
 import com.cuongngo.cinemax.di.appMovieModule
 import org.kodein.di.Kodein
@@ -28,6 +33,17 @@ class App : Application(), KodeinAware, LifecycleObserver {
             instance ?: App().also {
                 instance = it
             }
+        }
+        fun getString(@StringRes strId: Int): String {
+            return getResources().getString(strId)
+        }
+
+        fun getDrawableResource(@DrawableRes drawableRes: Int): Drawable? {
+            return ContextCompat.getDrawable(getInstance(), drawableRes)
+        }
+
+        fun getResources(): Resources {
+            return getInstance().resources
         }
     }
 }

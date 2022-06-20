@@ -20,6 +20,12 @@ class MovieViewModel (private val movieRepository: MovieRepository): BaseViewMod
     private val _listMovie = MutableLiveData<BaseResult<MovieResponse>>()
     val listMovie: LiveData<BaseResult<MovieResponse>> get() = _listMovie
 
+    private val _listPopularMovie = MutableLiveData<BaseResult<MovieResponse>>()
+    val listPopularMovie: LiveData<BaseResult<MovieResponse>> get() = _listPopularMovie
+
+    var page: Int = 1
+    var keyword: String? = null
+
     fun getMovieDetail(
         movieId: String?
     ) {
@@ -36,6 +42,28 @@ class MovieViewModel (private val movieRepository: MovieRepository): BaseViewMod
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 _listMovie.postValue(movieRepository.getUpcoming())
+            }
+        }
+    }
+
+    fun getPopularMovie(){
+        _listPopularMovie.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                _listPopularMovie.postValue(
+                    movieRepository.getPopularMovie(page)
+                )
+            }
+        }
+    }
+
+    fun loadMoreMovie(maxPage: Int) {
+        if (page < maxPage) {
+            page = page.plus(1)
+            if (keyword.isNullOrEmpty()) {
+                getPopularMovie()
+            } else {
+//                searchMovie()
             }
         }
     }

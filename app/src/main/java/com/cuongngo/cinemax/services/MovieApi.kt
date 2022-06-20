@@ -6,6 +6,7 @@ import com.cuongngo.cinemax.services.network.invoker.ApiClientFactory
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieApi {
 
@@ -16,6 +17,11 @@ interface MovieApi {
 
     @GET("movie/upcoming")
     suspend fun getUpcoming(): Response<MovieResponse>
+
+    @GET("movie/popular")
+    suspend fun getPopularMovie(
+        @Query("page") page: Int? = null
+    ): Response<MovieResponse>
 
     companion object {
         operator fun invoke(): MovieApi{

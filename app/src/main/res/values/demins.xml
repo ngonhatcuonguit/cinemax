@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="banner_margin_page">32dp</dimen>
+    <dimen name="banner_max_margin_next_page">40dp</dimen>
+    <dimen name="banner_margin_offset">16dp</dimen>
+    <dimen name="banner_height">95dp</dimen>
+    <dimen name="banner_width">295dp</dimen>
+    <dimen name="banner_spacing">8dp</dimen>
+</resources>
