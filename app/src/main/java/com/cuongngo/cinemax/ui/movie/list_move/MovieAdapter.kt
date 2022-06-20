@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemMovieBinding
 import com.cuongngo.cinemax.response.Movie
@@ -30,6 +31,11 @@ class MovieAdapter (
         val binding = holder.itemMovieBinding
         val movie = listMovie[position]
         binding.movie = movie
+//        if (position == 0){
+//            val paddingStart = App.getResources().getDimensionPixelOffset(R.dimen._24dp)
+//            val paddingEnd = App.getResources().getDimensionPixelOffset(R.dimen._12dp)
+//            binding.clContainer.setPadding(paddingStart,0,paddingEnd,0)
+//        }
     }
 
     override fun getItemCount(): Int {

@@ -9,8 +9,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="147dp"
+        android:id="@+id/cl_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingEnd="12dp"
         android:background="@color/transparent">
         <carbon.widget.ConstraintLayout
             android:layout_width="135dp"
@@ -70,7 +72,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4.5"
+                    android:text="@{movie.vote_average.toString()}"
                     android:textStyle="bold"
                     android:textColor="#FF8700"
                     android:textSize="12sp"

@@ -10,6 +10,7 @@ import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.utils.getScreenWidth
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlin.math.abs
 import kotlin.properties.Delegates
 
 class ViewPagerHelper(
@@ -38,16 +39,18 @@ class ViewPagerHelper(
         )
     }
 
-    private var pageMarginRight = App.getResources().getDimension(R.dimen.banner_spacing)
-    private var pageMarginLeft = App.getResources().getDimension(R.dimen.banner_margin_offset)
-    private val offscreen = 3
-    private val remainRightSpace =
-        getScreenWidth().toFloat() - App.getResources().getDimension(R.dimen.banner_width)
     private val defaultPage = if (defaultPos == 0) viewPagerAdapter.itemCount / 3 else defaultPos
-
+    private val offscreen = 1
     private var isIdling = true
     private var isViewPagerAttached = true
     private var activePos = -1
+
+    private val MAX_ALPHA = 1.0f
+    private val MIN_ALPHA = 0.5f
+    private val MAX_SCALE = 1f
+    private val SCALE_PERCENT = 0.9f
+    private val MIN_SCALE = SCALE_PERCENT * MAX_SCALE
+
 
     private val pageChangeCallBack = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -85,7 +88,6 @@ class ViewPagerHelper(
         with(viewPager2) {
             setTransformer(this)
             adapter = viewPagerAdapter
-            offscreenPageLimit = offscreen //3
             registerOnPageChangeCallback(pageChangeCallBack)
             if (defaultPage in 0 until viewPagerAdapter.itemCount) {
                 viewPager2.setCurrentItem(defaultPage, false)
@@ -94,34 +96,27 @@ class ViewPagerHelper(
     }
 
     private fun setTransformer(viewPager2: ViewPager2) {
-        val nextPagePreShow = remainRightSpace - pageMarginRight
         with(viewPager2) {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            clipToPadding = false
+            clipChildren = false
+            // retain 1 page on each size
+            offscreenPageLimit = offscreen
+            val screenWidth = resources.displayMetrics.widthPixels
+            val nextItemTranslationX = 0.2319f *screenWidth
             setPageTransformer { page, position ->
-                val myOffset: Float = calculatePageMarginOffset(
-                    position = position,
-                    marginLeft = pageMarginLeft,
-                    marginRight = nextPagePreShow,
-                )
-                if (orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                    if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                        page.translationX = -myOffset
-                    } else {
-                        page.translationX = myOffset
-                    }
-                } else {
-                    page.translationY = myOffset
-                }
+                // position  -1: left, 0: center, 1: right
+                val absPosition = abs(position)
+                // alpha from MIN_ALPHA to MAX_ALPHA
+                page.alpha = MAX_ALPHA - (MAX_ALPHA - MIN_ALPHA) * absPosition
+                // scale from MIN_SCALE to MAX_SCALE
+                val scale = MAX_SCALE - (MAX_SCALE - MIN_SCALE) * absPosition
+                page.scaleY = scale
+                page.scaleX = scale
+                // translation X
+                page.translationX = -position * nextItemTranslationX
             }
         }
-    }
-
-    private fun calculatePageMarginOffset(
-        position: Float,
-        marginLeft: Float,
-        marginRight: Float
-    ): Float {
-        return marginLeft + position * -marginRight
     }
 
     fun autoScroll(lifecycleScope: LifecycleCoroutineScope, interval: Long): ViewPagerHelper {

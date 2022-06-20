@@ -13,30 +13,53 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_dark_radius_16dp">
+        android:layout_height="match_parent">
 
         <carbon.widget.ImageView
-            android:id="@+id/iv_poster"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            loadImagePath="@{movie.backdrop_path}"
+            android:id="@+id/img_banner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:carbon_cornerRadius="16dp"
-            android:scaleType="fitCenter"
-            android:foregroundGravity="fill"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintDimensionRatio="295:154"
+            app:layout_constraintWidth_percent="0.786"
+            loadImagePath="@{movie.backdrop_path}"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitCenter"/>
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="24dp"
-            android:textSize="20sp"
+            android:layout_marginBottom="4dp"
+            android:textSize="16sp"
             android:textColor="@color/white"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginEnd="60dp"
             android:text="@{movie.title}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/img_banner"
+            app:layout_constraintBottom_toTopOf="@id/tv_date_release"
+            app:layout_constraintEnd_toEndOf="@id/img_banner"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date_release"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="12sp"
+            android:textColor="#EBEBEF"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginEnd="60dp"
+            android:text="@{movie.release_date}"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="@id/img_banner"
+            app:layout_constraintEnd_toEndOf="@id/img_banner"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
