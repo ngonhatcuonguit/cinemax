@@ -3,6 +3,8 @@ package com.cuongngo.cinemax.response
 import java.io.Serializable
 
 data class MovieResponse(
+    val status_message: String?,
+    val status_code: Int?,
     val page: Int?,
     val total_pages: Int?,
     val total_results: Int?,

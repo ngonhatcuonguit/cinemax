@@ -1,5 +1,6 @@
 package com.cuongngo.cinemax.services.repository
 
+import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.services.network.BaseResult
@@ -14,6 +15,9 @@ class MovieRepository( private val movieRemoteDataSource: MovieRemoteDataSource)
 
     suspend fun getUpcoming (): BaseResult<MovieResponse> {
         return movieRemoteDataSource.getUpcoming()
+    }
+    suspend fun getGenresMovie(): BaseResult<GenresMovieResponse> {
+        return movieRemoteDataSource.getGenresMovie()
     }
 
     suspend fun getPopularMovie(

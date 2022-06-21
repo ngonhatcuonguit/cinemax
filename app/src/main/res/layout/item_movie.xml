@@ -16,7 +16,8 @@
         android:background="@color/transparent">
         <carbon.widget.ConstraintLayout
             android:layout_width="135dp"
-            android:layout_height="231dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="6dp"
             android:background="#252836"
             app:carbon_cornerRadius="12dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +48,7 @@
                 app:layout_constraintTop_toBottomOf="@id/iv_poster"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_genre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#92929D"

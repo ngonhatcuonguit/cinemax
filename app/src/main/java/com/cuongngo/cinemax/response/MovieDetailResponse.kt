@@ -3,6 +3,8 @@ package com.cuongngo.cinemax.response
 import java.io.Serializable
 
 data class MovieDetailResponse(
+    val status_message: String?,
+    val status_code: Int?,
     val id: String?,
     val adult: Boolean?,
     val backdrop_path: String?,

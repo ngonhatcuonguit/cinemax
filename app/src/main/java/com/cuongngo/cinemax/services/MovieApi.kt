@@ -1,5 +1,6 @@
 package com.cuongngo.cinemax.services
 
+import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.services.network.invoker.ApiClientFactory
@@ -17,6 +18,9 @@ interface MovieApi {
 
     @GET("movie/upcoming")
     suspend fun getUpcoming(): Response<MovieResponse>
+
+    @GET("genre/movie/list")
+    suspend fun getGenresMovie(): Response<GenresMovieResponse>
 
     @GET("movie/popular")
     suspend fun getPopularMovie(

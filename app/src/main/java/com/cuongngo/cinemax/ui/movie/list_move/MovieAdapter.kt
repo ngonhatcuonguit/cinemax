@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemMovieBinding
+import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.Movie
 
 class MovieAdapter (
-    listMovie: ArrayList<Movie>
+    listMovie: ArrayList<Movie>,
+    listGenres: List<GenresMovie>?
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val listMovie = listMovie
+    private val listGenres = listGenres
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieViewHolder(
@@ -31,11 +34,20 @@ class MovieAdapter (
         val binding = holder.itemMovieBinding
         val movie = listMovie[position]
         binding.movie = movie
-//        if (position == 0){
-//            val paddingStart = App.getResources().getDimensionPixelOffset(R.dimen._24dp)
-//            val paddingEnd = App.getResources().getDimensionPixelOffset(R.dimen._12dp)
-//            binding.clContainer.setPadding(paddingStart,0,paddingEnd,0)
-//        }
+
+        val genre = movie.genre_ids?.firstOrNull()
+
+        listGenres?.forEach {
+            if (it.id == genre){
+                binding.tvGenre.text = it.name ?: ""
+            }
+        }
+
+        if (position == 0){
+            val paddingStart = App.getResources().getDimensionPixelOffset(R.dimen._24dp)
+            val paddingEnd = App.getResources().getDimensionPixelOffset(R.dimen._12dp)
+            binding.clContainer.setPadding(paddingStart,0,paddingEnd,0)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.cuongngo.cinemax.base.viewmodel.BaseViewModel
+import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.services.network.BaseResult
@@ -19,17 +20,19 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
     private val _listMovie = MutableLiveData<BaseResult<MovieResponse>>()
     val listMovie: LiveData<BaseResult<MovieResponse>> get() = _listMovie
 
-
     private val _listPopularMovie = MutableLiveData<BaseResult<MovieResponse>>()
     val listPopularMovie: LiveData<BaseResult<MovieResponse>> get() = _listPopularMovie
+
+    private val _listGenres = MutableLiveData<BaseResult<GenresMovieResponse>>()
+    val listGenres: LiveData<BaseResult<GenresMovieResponse>> get() = _listGenres
 
     var page: Int = 1
     var keyword: String? = null
 
 
     init {
+        getGenresMovie()
         getUpcoming()
-        getPopularMovie()
     }
 
     fun getMovieDetail(
@@ -48,6 +51,15 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 _listMovie.postValue(movieRepository.getUpcoming())
+            }
+        }
+    }
+
+    fun getGenresMovie(){
+        _listGenres.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                _listGenres.postValue(movieRepository.getGenresMovie())
             }
         }
     }

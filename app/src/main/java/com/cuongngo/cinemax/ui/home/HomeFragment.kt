@@ -11,6 +11,7 @@ import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.databinding.HomeFragmentBinding
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
+import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
@@ -28,27 +29,11 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
     private lateinit var movieAdapter: MovieAdapter
     private var currentKeyword: String? = null
     private var totalPages: Int = 1
+    private var listGenres: List<GenresMovie> = emptyList()
 
     override fun setUp() {
         with(binding){
-            vpTopViewpager.offscreenPageLimit = 3
-            vpTopViewpager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-            val compositePageTransformer = CompositePageTransformer()
-            compositePageTransformer.addTransformer(MarginPageTransformer(30))
-            compositePageTransformer.addTransformer{ page, position ->
-                val r = 1 - abs(position)
-                page.scaleX = 0.85f + r * 0.25f
-            }
-            vpTopViewpager.setPageTransformer(compositePageTransformer)
-
-            vpTopViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    sliderHandle.removeCallbacks(sliderRunnable)
-                    sliderHandle.postDelayed(sliderRunnable, 3000)
-                }
-            })
         }
     }
 
@@ -78,12 +63,25 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
 
         observeLiveDataChanged(viewModel.listPopularMovie) {
             it.onResultReceived(
+                onLoading = {},
+                onSuccess = {
+                    hideProgressDialog()
+                    setupRecycleViewListMovie(it.data?.results ?: return@onResultReceived)
+                },
+                onError = {
+                    hideProgressDialog()
+                }
+            )
+        }
+
+        observeLiveDataChanged(viewModel.listGenres){
+            it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
                 },
                 onSuccess = {
-                    hideProgressDialog()
-                    setupRecycleViewListMovie(it.data?.results ?: return@onResultReceived)
+                    listGenres = it.data?.genres ?: return@onResultReceived
+                    viewModel.getPopularMovie()
                 },
                 onError = {
                     hideProgressDialog()
@@ -95,7 +93,8 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
 
     private fun setupRecycleViewListMovie(listMovie: List<Movie>) {
         movieAdapter = MovieAdapter(
-            arrayListOf()
+            arrayListOf(),
+            listGenres
         )
         movieAdapter.submitListMovie(listMovie)
         binding.rcvListMovie.apply {
