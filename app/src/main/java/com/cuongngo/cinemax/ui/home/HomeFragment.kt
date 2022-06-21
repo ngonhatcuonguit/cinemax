@@ -18,12 +18,13 @@ import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
+import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.movie.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
 import kotlin.math.abs
 
-class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener {
+class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener, MovieAdapter.SelectedListener {
 
     override val viewModel: HomeViewModel by kodeinViewModel()
 
@@ -57,7 +58,10 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                         defaultPos = 0,
                         viewPagerAdapter = ViewPagerAdapter(
                             data = it.data?.results ?: return@onResultReceived,
-                            viewPager2 = binding.vpTopViewpager
+                            viewPager2 = binding.vpTopViewpager,
+                            onItemClick = {
+                                startActivity(MovieDetailActivity().newIntent(requireActivity(),it.id.orEmpty()))
+                            }
                         ),
                         onPageChanged = {}
                     ).autoScroll(lifecycleScope, 3000)
@@ -101,7 +105,8 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
     private fun setupRecycleViewListMovie(listMovie: List<Movie>) {
         movieAdapter = MovieAdapter(
             arrayListOf(),
-            listGenres
+            listGenres,
+            this
         )
         movieAdapter.submitListMovie(listMovie)
         binding.rcvListMovie.apply {
@@ -136,7 +141,13 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
         genreAdapter.notifyItemChanged(oldIndex)
     }
 
+
+    override fun onSelectedListener(movie: Movie) {
+        startActivity(MovieDetailActivity().newIntent(requireActivity(),movie.id.orEmpty()))
+    }
+
     companion object{
         val TAG = HomeFragment::class.java.simpleName
     }
+
 }

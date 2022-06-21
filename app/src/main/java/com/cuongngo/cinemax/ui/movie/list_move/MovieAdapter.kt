@@ -12,7 +12,8 @@ import com.cuongngo.cinemax.response.Movie
 
 class MovieAdapter (
     listMovie: ArrayList<Movie>,
-    listGenres: List<GenresMovie>?
+    listGenres: List<GenresMovie>?,
+    private val selectedListener: SelectedListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val listMovie = listMovie
@@ -48,10 +49,19 @@ class MovieAdapter (
             val paddingEnd = App.getResources().getDimensionPixelOffset(R.dimen._12dp)
             binding.clContainer.setPadding(paddingStart,0,paddingEnd,0)
         }
+
+        binding.root.setOnClickListener {
+            selectedListener.onSelectedListener(movie)
+        }
+
     }
 
     override fun getItemCount(): Int {
         return listMovie.size
+    }
+
+    interface SelectedListener {
+        fun onSelectedListener(movie: Movie)
     }
 
     fun submitListMovie(listMovie: List<Movie>){

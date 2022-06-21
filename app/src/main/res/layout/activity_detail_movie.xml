@@ -171,7 +171,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="4.5"
+                            android:text="@{movieDetail.vote_average.toString()}"
                             android:textColor="#FF8700"
                             android:textSize="12sp"
                             android:textStyle="bold"
