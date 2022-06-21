@@ -1,6 +1,9 @@
 package com.cuongngo.cinemax.ui.home
 
 import android.os.Handler
+import android.view.MotionEvent
+import android.view.View
+import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -14,12 +17,13 @@ import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.services.network.onResultReceived
+import com.cuongngo.cinemax.ui.categories.GenreAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.movie.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
 import kotlin.math.abs
 
-class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
+class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener {
 
     override val viewModel: HomeViewModel by kodeinViewModel()
 
@@ -27,9 +31,11 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
 
     private val sliderHandle = Handler()
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var genreAdapter: GenreAdapter
     private var currentKeyword: String? = null
     private var totalPages: Int = 1
-    private var listGenres: List<GenresMovie> = emptyList()
+    private var listGenres: ArrayList<GenresMovie> = arrayListOf()
+    private var genreSelected: GenresMovie? = null
 
     override fun setUp() {
         with(binding){
@@ -81,6 +87,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
                 },
                 onSuccess = {
                     listGenres = it.data?.genres ?: return@onResultReceived
+                    setupRcvCategories(it.data.genres)
                     viewModel.getPopularMovie()
                 },
                 onError = {
@@ -100,6 +107,33 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>() {
         binding.rcvListMovie.apply {
             adapter = movieAdapter
         }
+    }
+
+    private fun setupRcvCategories(listGenres: List<GenresMovie>){
+        genreAdapter = GenreAdapter(
+            arrayListOf(),
+            this
+        )
+        if (genreSelected == null){
+            listGenres.firstOrNull()?.is_selected = true
+            genreSelected = listGenres.firstOrNull()
+        }
+        genreAdapter.submitListGenres(listGenres)
+        binding.rcvListGenres.adapter = genreAdapter
+    }
+
+    override fun onSelectedListener(genre: GenresMovie) {
+        genreSelected = genre
+        val oldData = listGenres.find { it.is_selected }
+        val oldIndex = listGenres.indexOf(oldData)
+        val index = listGenres.indexOf(genre)
+
+        oldData?.is_selected = false
+        genre.is_selected = true
+        listGenres[oldIndex] = (oldData ?: return)
+        listGenres[index] = genre
+        genreAdapter.notifyItemChanged(index)
+        genreAdapter.notifyItemChanged(oldIndex)
     }
 
     companion object{

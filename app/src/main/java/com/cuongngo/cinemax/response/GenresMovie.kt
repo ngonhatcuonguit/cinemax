@@ -3,10 +3,11 @@ package com.cuongngo.cinemax.response
 data class GenresMovieResponse(
     val status_message: String?,
     val status_code: Int?,
-    val genres: List<GenresMovie>?
+    val genres: ArrayList<GenresMovie>?
 ): BaseModel()
 
 data class GenresMovie(
     val id: Int?,
-    val name: String?
+    val name: String?,
+    var is_selected: Boolean = false
 ): BaseModel()

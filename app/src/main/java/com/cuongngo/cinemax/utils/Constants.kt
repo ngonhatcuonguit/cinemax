@@ -12,7 +12,6 @@ class Constants {
         val APP = "Cinemax_app"
         val FACEBOOK_APPLICATION_ID = "com.facebook.katana"
         val BOTTOM_SHEET_HEIGHT_VALUE = "height_value"
-        //        val BASE_API_URL ="https://api.github.com/"
         val BASE_API_URL ="https://api.themoviedb.org/3/"
         val POSTER_BASE_URL ="https://image.tmdb.org/t/p/w342"
         val API_KEY = "881d0086880729a1689060b27cca5f1c"
