@@ -27,6 +27,13 @@ interface MovieApi {
         @Query("page") page: Int? = null
     ): Response<MovieResponse>
 
+    //search keyword
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") query: String? = null,
+        @Query("page") page: Int? = null
+    ): Response<MovieResponse>
+
     companion object {
         operator fun invoke(): MovieApi{
             return ApiClientFactory.createService()

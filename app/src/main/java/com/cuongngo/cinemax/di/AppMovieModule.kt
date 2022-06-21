@@ -8,6 +8,7 @@ import com.cuongngo.cinemax.services.remote.MovieRemoteDataSource
 import com.cuongngo.cinemax.services.repository.MovieRepository
 import com.cuongngo.cinemax.ui.home.HomeViewModel
 import com.cuongngo.cinemax.ui.movie.MovieViewModel
+import com.cuongngo.cinemax.ui.search.SearchViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -29,5 +30,8 @@ val appMovieModule = Kodein.Module(APP_MODULE, false) {
     }
     bindViewModel<HomeViewModel>() with provider {
         HomeViewModel(instance())
+    }
+    bindViewModel<SearchViewModel>() with provider {
+        SearchViewModel(instance())
     }
 }

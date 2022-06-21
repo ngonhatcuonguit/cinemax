@@ -25,4 +25,12 @@ class MovieRepository( private val movieRemoteDataSource: MovieRemoteDataSource)
     ): BaseResult<MovieResponse> {
         return movieRemoteDataSource.getPopularMovie(page)
     }
+
+    suspend fun searchMovie(
+        query: String?,
+        page: Int?
+    ): BaseResult<MovieResponse> {
+        return movieRemoteDataSource.searchMovie(query, page)
+    }
+
 }

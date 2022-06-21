@@ -17,4 +17,9 @@ class MovieRemoteDataSource(private val apiService: MovieApi) : BaseRemoteDataSo
     suspend fun getPopularMovie(
         page: Int?
     ) = getResult { apiService.getPopularMovie(page) }
+
+    suspend fun searchMovie(
+        query: String?,
+        page: Int?
+    ) = getResult { apiService.searchMovie(query, page) }
 }
