@@ -1,8 +1,5 @@
 package com.cuongngo.cinemax.ui.home
 
-import android.view.MotionEvent
-import android.view.View
-import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

@@ -1,14 +1,7 @@
 package com.cuongngo.cinemax.ui.home
 
 import android.os.Handler
-import android.view.MotionEvent
-import android.view.View
-import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
@@ -19,10 +12,11 @@ import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
 import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
-import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.movie.list_move.MovieAdapter
+import com.cuongngo.cinemax.ui.search.SearchActivity
+import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
-import kotlin.math.abs
+import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener, MovieAdapter.SelectedListener {
 
@@ -39,8 +33,10 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
     private var genreSelected: GenresMovie? = null
 
     override fun setUp() {
-        with(binding){
-
+        with(binding) {
+            clSearch.setOnClickListener {
+                startActivity(SearchActivity.newIntent(requireActivity()))
+            }
         }
     }
 
@@ -92,6 +88,9 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                 onSuccess = {
                     listGenres = it.data?.genres ?: return@onResultReceived
                     setupRcvCategories(it.data.genres)
+//                    lifecycleScope.launch {
+//                        viewModel.updateListGenreLocal(it.data.genres)
+//                    }
                     viewModel.getPopularMovie()
                 },
                 onError = {

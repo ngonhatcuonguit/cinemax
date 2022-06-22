@@ -23,7 +23,7 @@ class SearchViewModel (private val movieRepository: MovieRepository) : BaseViewM
     var keyword: String? = null
 
     init {
-        getPopularMovie()
+//        getPopularMovie()
     }
 
     fun searchMovie() {

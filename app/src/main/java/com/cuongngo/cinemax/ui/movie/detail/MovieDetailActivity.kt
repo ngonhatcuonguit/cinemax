@@ -2,7 +2,6 @@ package com.cuongngo.cinemax.ui.movie.detail
 
 import android.content.Context
 import android.content.Intent
-import androidx.core.os.bundleOf
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.activity.AppBaseActivityMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel

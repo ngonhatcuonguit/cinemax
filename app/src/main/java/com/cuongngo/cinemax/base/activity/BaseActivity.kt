@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.cuongngo.cinemax.R
@@ -57,9 +59,21 @@ abstract class BaseActivity <DB : ViewDataBinding>: AppCompatActivity(), KodeinA
     }
 
     open fun enableLightStatusBar(){
+        val window = window
+        val decorView: View = window.decorView
+        WindowInsetsControllerCompat(window, decorView).also { wic ->
+            wic.isAppearanceLightStatusBars = true // true or false as desired.
+        }
+        window.statusBarColor = customStatusBarColor
+
+        /** DEPRECATED -> not use it, just for learning something old
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         window.statusBarColor = Color.WHITE
+         **/
     }
+
+    @ColorInt
+    open val customStatusBarColor: Int = Color.TRANSPARENT
 
     protected fun setStatusBarColor(@DrawableRes id: Int) {
         window.statusBarColor = Color.TRANSPARENT

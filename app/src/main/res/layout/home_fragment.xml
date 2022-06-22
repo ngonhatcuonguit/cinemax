@@ -5,6 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:background="#1F1D2B">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -12,7 +13,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="62dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/default_avatar"
             android:padding="5dp"
             app:civ_border_color="@color/white"
@@ -76,20 +77,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_search_gray" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Searc a title.."
+                android:text="Searc a title.."
                 android:maxLines="1"
-                android:textColor="@color/white"
-                android:textColorHint="#92929D"
+                android:textColor="#92929D"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/view_space"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@id/iv_search"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View

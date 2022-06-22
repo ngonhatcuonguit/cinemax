@@ -1,5 +1,6 @@
 package com.cuongngo.cinemax.ui
 
+import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -17,6 +18,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var navView: BottomNavigationView
 
     override fun inflateLayout(): Int = R.layout.activity_main
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableLightStatusBar()
+    }
 
     override fun setUp() {
         navView = findViewById(R.id.nav_bottom)
