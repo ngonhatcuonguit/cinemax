@@ -15,10 +15,10 @@ import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.SearchActivityBinding
 import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
-import com.cuongngo.cinemax.response.Movie
+import com.cuongngo.cinemax.response.GenresMovie
+import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
-import com.cuongngo.cinemax.ui.movie.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.movie.list_move.MovieHorizontalAdapter
 import com.jakewharton.rxbinding3.widget.textChangeEvents
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -39,6 +39,8 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 
     private lateinit var horizontalMovieAdapter: MovieHorizontalAdapter
 
+    private val genres by lazy { intent.getSerializableExtra(LIST_GENRE) as? GenresMovieResponse }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableLightStatusBar()
@@ -53,10 +55,10 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
         }
         setupSearchMovie()
         setupRecycleViewListMovie()
+        WTF("test genres $genres")
     }
 
     override fun setUpObserver() {
-
         observeLiveDataChanged(searchViewModel.searchMovie){
             it.onResultReceived(
                 onLoading = {
@@ -78,6 +80,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
     private fun setupRecycleViewListMovie() {
         horizontalMovieAdapter = MovieHorizontalAdapter(
             arrayListOf(),
+            genres?.genres,
             onItemClick = {
                 startActivity(MovieDetailActivity().newIntent(this,it.id.orEmpty()))
             }
@@ -98,9 +101,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
                     currentKeyword = it.text.toString()
                     if (currentKeyword != searchViewModel.keyword) {
                         searchViewModel.keyword = currentKeyword
-//                        movieSection.clear()
                         searchViewModel.page = 1
-                        horizontalMovieAdapter.submitListMovie(arrayListOf())
                         if (searchViewModel.keyword.isNullOrEmpty()) {
                             Log.d("test_search", "getPopularMovie $currentKeyword")
 //                            searchViewModel.getPopularMovie()
@@ -136,12 +137,14 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 
     companion object {
         val TAG = SearchActivity::class.java.simpleName
+        const val LIST_GENRE = "LIST_GENRE"
 
         fun newIntent(
-            context: Context
+            context: Context,
+            genresMovieResponse: GenresMovieResponse
         ): Intent{
             return Intent(context, SearchActivity::class.java).apply {
-
+                putExtra(LIST_GENRE, genresMovieResponse)
             }
         }
 

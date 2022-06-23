@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.activity.BaseActivity
 import com.cuongngo.cinemax.databinding.ActivityMainBinding
+import com.cuongngo.cinemax.roomdb.AppDatabase
 import com.cuongngo.cinemax.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.CornerFamily

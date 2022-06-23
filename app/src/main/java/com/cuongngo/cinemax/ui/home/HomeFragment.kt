@@ -1,14 +1,21 @@
 package com.cuongngo.cinemax.ui.home
 
+import android.app.Activity
 import android.os.Handler
+import android.provider.ContactsContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.databinding.HomeFragmentBinding
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.GenresMovie
+import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.Movie
+import com.cuongngo.cinemax.roomdb.AppDatabase
+import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
 import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
@@ -16,6 +23,8 @@ import com.cuongngo.cinemax.ui.movie.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.search.SearchActivity
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener, MovieAdapter.SelectedListener {
@@ -29,13 +38,15 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
     private lateinit var genreAdapter: GenreAdapter
     private var currentKeyword: String? = null
     private var totalPages: Int = 1
+    private var listLocalGenres: List<GenreEntity> = emptyList()
     private var listGenres: ArrayList<GenresMovie> = arrayListOf()
     private var genreSelected: GenresMovie? = null
+    private var genresMovieResponse:  GenresMovieResponse? = null
 
     override fun setUp() {
         with(binding) {
             clSearch.setOnClickListener {
-                startActivity(SearchActivity.newIntent(requireActivity()))
+                startActivity(SearchActivity.newIntent(requireActivity(), genresMovieResponse ?: return@setOnClickListener))
             }
         }
     }
@@ -87,10 +98,9 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                 },
                 onSuccess = {
                     listGenres = it.data?.genres ?: return@onResultReceived
+                    genresMovieResponse = it.data
                     setupRcvCategories(it.data.genres)
-//                    lifecycleScope.launch {
-//                        viewModel.updateListGenreLocal(it.data.genres)
-//                    }
+//                    setupGenreLocal(it.data.genres)
                     viewModel.getPopularMovie()
                 },
                 onError = {
@@ -99,6 +109,19 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
             )
         }
 
+    }
+
+    private fun setupGenreLocal(listGenre: List<GenresMovie>) {
+        App.getGenreDatabase().getGenres().let { list ->
+            if (list.isEmpty()){
+                lifecycleScope.launch {
+                    listGenre.forEach{ genre ->
+                        App.getGenreDatabase().addGenre(GenreEntity(genre.id.toString(), genre.name.orEmpty()))
+                    }
+                }
+            }else{ }
+            listLocalGenres = App.getGenreDatabase().getGenres()
+        }
     }
 
     private fun setupRecycleViewListMovie(listMovie: List<Movie>) {

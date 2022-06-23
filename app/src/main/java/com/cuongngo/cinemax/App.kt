@@ -8,6 +8,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleObserver
 import com.cuongngo.cinemax.di.appMovieModule
+import com.cuongngo.cinemax.roomdb.AppDatabase
+import com.cuongngo.cinemax.roomdb.Dao.GenreDao
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -45,5 +47,10 @@ class App : Application(), KodeinAware, LifecycleObserver {
         fun getResources(): Resources {
             return getInstance().resources
         }
+
+        fun getGenreDatabase() : GenreDao {
+            return AppDatabase.getDatabase(getInstance()).genreDao()
+        }
+
     }
 }
