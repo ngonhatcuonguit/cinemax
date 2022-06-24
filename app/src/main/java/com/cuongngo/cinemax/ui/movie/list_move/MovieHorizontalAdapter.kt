@@ -9,15 +9,16 @@ import com.cuongngo.cinemax.databinding.ItemHorizontalMovieBinding
 import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.Movie
+import com.cuongngo.cinemax.response.MultiMedia
 import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 
 class MovieHorizontalAdapter(
-    listMovie: ArrayList<Movie>,
+    listMedia: ArrayList<MultiMedia>,
     listGenre: ArrayList<GenresMovie>?,
-    private val onItemClick: ((Movie) -> Unit)? = null
+    private val onItemClick: ((MultiMedia) -> Unit)? = null
 ): RecyclerView.Adapter<MovieHorizontalAdapter.MovieHorizontalViewHolder>() {
 
-    private val listMovie = listMovie
+    private val listMedia = listMedia
     private val listGenre = listGenre
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHorizontalViewHolder {
@@ -33,12 +34,12 @@ class MovieHorizontalAdapter(
 
     override fun onBindViewHolder(holder: MovieHorizontalViewHolder, position: Int) {
         val binding = holder.movieHorizontalMovieBinding
-        val movie = listMovie[position]
-        binding.movie = movie
+        val media = listMedia[position]
+        binding.multiMedia = media
         binding.root.setOnClickListener {
-            onItemClick?.invoke(movie)
+            onItemClick?.invoke(media)
         }
-        val genreID = movie.genre_ids?.firstOrNull()
+        val genreID = media.genre_ids?.firstOrNull()
         listGenre?.forEach {
             if (it.id == genreID){
                 binding.tvGenre.text = it.name.toString()
@@ -47,12 +48,12 @@ class MovieHorizontalAdapter(
     }
 
     override fun getItemCount(): Int {
-        return listMovie.size
+        return listMedia.size
     }
 
-    fun submitListMovie(listMovie: List<Movie>){
-        this.listMovie.clear()
-        this.listMovie.addAll(listMovie)
+    fun submitListMovie(listMedia: List<MultiMedia>){
+        this.listMedia.clear()
+        this.listMedia.addAll(listMedia)
         notifyDataSetChanged()
     }
 

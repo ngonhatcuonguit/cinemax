@@ -3,6 +3,7 @@ package com.cuongngo.cinemax.services
 import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
+import com.cuongngo.cinemax.response.MultiMediaResponse
 import com.cuongngo.cinemax.services.network.invoker.ApiClientFactory
 import retrofit2.Response
 import retrofit2.http.GET
@@ -22,17 +23,20 @@ interface MovieApi {
     @GET("genre/movie/list")
     suspend fun getGenresMovie(): Response<GenresMovieResponse>
 
+    @GET("genre/tv/list")
+    suspend fun getGenresTV(): Response<GenresMovieResponse>
+
     @GET("movie/popular")
     suspend fun getPopularMovie(
         @Query("page") page: Int? = null
     ): Response<MovieResponse>
 
     //search keyword
-    @GET("search/movie")
-    suspend fun searchMovie(
+    @GET("search/multi")
+    suspend fun searchMedia(
         @Query("query") query: String? = null,
         @Query("page") page: Int? = null
-    ): Response<MovieResponse>
+    ): Response<MultiMediaResponse>
 
     companion object {
         operator fun invoke(): MovieApi{

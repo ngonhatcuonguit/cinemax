@@ -14,12 +14,14 @@ class MovieRemoteDataSource(private val apiService: MovieApi) : BaseRemoteDataSo
 
     suspend fun getGenresMovie() = getResult { apiService.getGenresMovie() }
 
+    suspend fun getGenresTV() = getResult { apiService.getGenresTV() }
+
     suspend fun getPopularMovie(
         page: Int?
     ) = getResult { apiService.getPopularMovie(page) }
 
-    suspend fun searchMovie(
+    suspend fun searchMedia(
         query: String?,
         page: Int?
-    ) = getResult { apiService.searchMovie(query, page) }
+    ) = getResult { apiService.searchMedia(query, page) }
 }

@@ -15,7 +15,6 @@ import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.SearchActivityBinding
 import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
-import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
@@ -59,7 +58,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
     }
 
     override fun setUpObserver() {
-        observeLiveDataChanged(searchViewModel.searchMovie){
+        observeLiveDataChanged(searchViewModel.searchMulti){
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
@@ -82,7 +81,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
             arrayListOf(),
             genres?.genres,
             onItemClick = {
-                startActivity(MovieDetailActivity().newIntent(this,it.id.orEmpty()))
+                startActivity(MovieDetailActivity().newIntent(this,it.id.orEmpty(), it.media_type.orEmpty()) )
             }
         )
         binding.rcvListMovieSearch.apply {
@@ -107,7 +106,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 //                            searchViewModel.getPopularMovie()
                         } else {
                             Log.d("test_search", "searchMovie $currentKeyword")
-                            searchViewModel.searchMovie()
+                            searchViewModel.searchMulti()
                         }
                     }
                     hideKeyboard()

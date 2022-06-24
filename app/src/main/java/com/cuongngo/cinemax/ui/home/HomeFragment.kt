@@ -67,7 +67,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                             data = it.data?.results ?: return@onResultReceived,
                             viewPager2 = binding.vpTopViewpager,
                             onItemClick = {
-                                startActivity(MovieDetailActivity().newIntent(requireActivity(),it.id.orEmpty()))
+                                startActivity(MovieDetailActivity().newIntent(requireActivity(),it.id.orEmpty(), "movie"))
                             }
                         ),
                         onPageChanged = {}
@@ -84,10 +84,21 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                 onSuccess = {
                     hideProgressDialog()
                     setupRecycleViewListMovie(it.data?.results ?: return@onResultReceived)
+                    viewModel.getGenresTV()
                 },
                 onError = {
                     hideProgressDialog()
                 }
+            )
+        }
+
+        observeLiveDataChanged(viewModel.listGenreTV) {
+            it.onResultReceived(
+                onLoading = {},
+                onSuccess = {
+                    genresMovieResponse?.addGenres(it.data?.genres.orEmpty() as ArrayList<GenresMovie>)
+                },
+                onError = {}
             )
         }
 
@@ -165,7 +176,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
 
 
     override fun onSelectedListener(movie: Movie) {
-        startActivity(MovieDetailActivity().newIntent(requireActivity(),movie.id.orEmpty()))
+        startActivity(MovieDetailActivity().newIntent(requireActivity(),movie.id.orEmpty(), "movie"))
     }
 
     companion object{

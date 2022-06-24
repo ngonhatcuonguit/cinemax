@@ -23,8 +23,11 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
     private val _listPopularMovie = MutableLiveData<BaseResult<MovieResponse>>()
     val listPopularMovie: LiveData<BaseResult<MovieResponse>> get() = _listPopularMovie
 
-    private val _listGenres = MutableLiveData<BaseResult<GenresMovieResponse>>()
-    val listGenres: LiveData<BaseResult<GenresMovieResponse>> get() = _listGenres
+    private val _listGenreMovie = MutableLiveData<BaseResult<GenresMovieResponse>>()
+    val listGenres: LiveData<BaseResult<GenresMovieResponse>> get() = _listGenreMovie
+
+    private val _listGenreTV = MutableLiveData<BaseResult<GenresMovieResponse>>()
+    val listGenreTV: LiveData<BaseResult<GenresMovieResponse>> get() = _listGenreTV
 
     var page: Int = 1
     var keyword: String? = null
@@ -56,10 +59,18 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
     }
 
     fun getGenresMovie(){
-        _listGenres.value = BaseResult.loading(null)
+        _listGenreMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                _listGenres.postValue(movieRepository.getGenresMovie())
+                _listGenreMovie.postValue(movieRepository.getGenresMovie())
+            }
+        }
+    }
+    fun getGenresTV(){
+        _listGenreTV.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                _listGenreTV.postValue(movieRepository.getGenresTV())
             }
         }
     }

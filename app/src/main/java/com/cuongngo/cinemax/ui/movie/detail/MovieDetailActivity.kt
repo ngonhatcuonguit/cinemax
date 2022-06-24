@@ -18,22 +18,29 @@ class MovieDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Movi
 
     companion object {
         val TAG = MovieDetailActivity::class.java.simpleName
-        const val MOVIE_ID_KEY = "MOVIE_ID_KEY"
+        const val MEDIA_ID_KEY = "MEDIA_ID_KEY"
+        const val MEDIA_TYPE = "MEDIA_TYPE"
     }
 
     fun newIntent(
         context: Context,
-        movieID: String
+        mediaID: String,
+        mediaType: String
     ): Intent {
         return Intent(context, MovieDetailActivity::class.java).apply {
-            putExtra(MOVIE_ID_KEY, movieID)
+            putExtra(MEDIA_ID_KEY, mediaID)
+            putExtra(MEDIA_TYPE, mediaType)
         }
     }
 
-    private val movieID by lazy { intent.getStringExtra(MOVIE_ID_KEY) ?: "" }
+    private val mediaID by lazy { intent.getStringExtra(MEDIA_ID_KEY) ?: "" }
+    private val mediaType by lazy { intent.getStringExtra(MEDIA_TYPE) ?: "" }
 
     override fun setUp() {
-        viewModel.getMovieDetail(movieID)
+        if (mediaType == "tv"){
+
+        }else viewModel.getMovieDetail(mediaID)
+
         with(binding){
             layoutAppBar.ivBack.setOnClickListener {
                 onBackPressed()
