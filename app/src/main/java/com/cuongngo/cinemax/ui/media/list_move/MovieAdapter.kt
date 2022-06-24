@@ -1,4 +1,4 @@
-package com.cuongngo.cinemax.ui.movie.list_move
+package com.cuongngo.cinemax.ui.media.list_move
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

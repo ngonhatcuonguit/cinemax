@@ -7,12 +7,12 @@ import com.cuongngo.cinemax.base.viewmodel.BaseViewModel
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
 import com.cuongngo.cinemax.services.network.BaseResult
-import com.cuongngo.cinemax.services.repository.MovieRepository
+import com.cuongngo.cinemax.services.repository.MediaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchViewModel (private val movieRepository: MovieRepository) : BaseViewModel() {
+class SearchViewModel (private val mediaRepository: MediaRepository) : BaseViewModel() {
 
     private val _searchMulti = MutableLiveData<BaseResult<MultiMediaResponse>>()
     val searchMulti: LiveData<BaseResult<MultiMediaResponse>> get() = _searchMulti
@@ -31,7 +31,7 @@ class SearchViewModel (private val movieRepository: MovieRepository) : BaseViewM
         _searchMulti.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _searchMulti.postValue(movieRepository.searchMedia(keyword, page))
+                _searchMulti.postValue(mediaRepository.searchMedia(keyword, page))
             }
         }
     }
@@ -41,7 +41,7 @@ class SearchViewModel (private val movieRepository: MovieRepository) : BaseViewM
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 _listPopularMovie.postValue(
-                    movieRepository.getPopularMovie(page)
+                    mediaRepository.getPopularMovie(page)
                 )
             }
         }

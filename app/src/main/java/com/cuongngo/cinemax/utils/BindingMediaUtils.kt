@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cuongngo.cinemax.R
+import com.cuongngo.cinemax.response.MediaDetailResponse
 import com.cuongngo.cinemax.response.MultiMedia
 import com.cuongngo.cinemax.utils.Constants.Companion.POSTER_BASE_URL
 

@@ -4,37 +4,44 @@ import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
+import com.cuongngo.cinemax.response.tv_response.TvDetailResponse
 import com.cuongngo.cinemax.services.network.BaseResult
-import com.cuongngo.cinemax.services.remote.MovieRemoteDataSource
+import com.cuongngo.cinemax.services.remote.MediaRemoteDataSource
 
-class MovieRepository( private val movieRemoteDataSource: MovieRemoteDataSource) {
+class MediaRepository(private val mediaRemoteDataSource: MediaRemoteDataSource) {
     suspend fun getMovieDetail(
         movie_id: String?
     ): BaseResult<MovieDetailResponse> {
-        return movieRemoteDataSource.getMovieDetail(movie_id)
+        return mediaRemoteDataSource.getMovieDetail(movie_id)
+    }
+
+    suspend fun getTvDetail(
+        tv_id: String?
+    ): BaseResult<TvDetailResponse> {
+        return mediaRemoteDataSource.getTvDetail(tv_id)
     }
 
     suspend fun getUpcoming (): BaseResult<MovieResponse> {
-        return movieRemoteDataSource.getUpcoming()
+        return mediaRemoteDataSource.getUpcoming()
     }
     suspend fun getGenresMovie(): BaseResult<GenresMovieResponse> {
-        return movieRemoteDataSource.getGenresMovie()
+        return mediaRemoteDataSource.getGenresMovie()
     }
     suspend fun getGenresTV(): BaseResult<GenresMovieResponse> {
-        return movieRemoteDataSource.getGenresTV()
+        return mediaRemoteDataSource.getGenresTV()
     }
 
     suspend fun getPopularMovie(
         page: Int?
     ): BaseResult<MovieResponse> {
-        return movieRemoteDataSource.getPopularMovie(page)
+        return mediaRemoteDataSource.getPopularMovie(page)
     }
 
     suspend fun searchMedia(
         query: String?,
         page: Int?
     ): BaseResult<MultiMediaResponse> {
-        return movieRemoteDataSource.searchMedia(query, page)
+        return mediaRemoteDataSource.searchMedia(query, page)
     }
 
 }

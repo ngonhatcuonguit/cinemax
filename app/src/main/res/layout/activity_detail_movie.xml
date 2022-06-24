@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="movieDetail"
-            type="com.cuongngo.cinemax.response.MovieDetailResponse" />
+            name="mediaDetail"
+            type="com.cuongngo.cinemax.response.MediaDetailResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,6 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_poster"
-                        loadImagePath="@{movieDetail.poster_path}"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
@@ -56,7 +55,6 @@
 
                     <carbon.widget.ImageView
                         android:id="@+id/cv_avatar"
-                        loadImagePath="@{movieDetail.poster_path}"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
@@ -171,7 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@{movieDetail.vote_average.toString()}"
+
                             android:textColor="#FF8700"
                             android:textSize="12sp"
                             android:textStyle="bold"

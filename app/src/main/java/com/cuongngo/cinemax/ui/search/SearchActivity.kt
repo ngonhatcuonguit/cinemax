@@ -17,8 +17,8 @@ import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
-import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
-import com.cuongngo.cinemax.ui.movie.list_move.MovieHorizontalAdapter
+import com.cuongngo.cinemax.ui.media.detail.MediaDetailActivity
+import com.cuongngo.cinemax.ui.media.list_move.MovieHorizontalAdapter
 import com.jakewharton.rxbinding3.widget.textChangeEvents
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -81,7 +81,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
             arrayListOf(),
             genres?.genres,
             onItemClick = {
-                startActivity(MovieDetailActivity().newIntent(this,it.id.orEmpty(), it.media_type.orEmpty()) )
+                startActivity(MediaDetailActivity().newIntent(this,it.id.orEmpty(), it.media_type.orEmpty()) )
             }
         )
         binding.rcvListMovieSearch.apply {

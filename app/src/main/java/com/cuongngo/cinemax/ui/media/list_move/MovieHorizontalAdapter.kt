@@ -1,4 +1,4 @@
-package com.cuongngo.cinemax.ui.movie.list_move
+package com.cuongngo.cinemax.ui.media.list_move
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,11 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemHorizontalMovieBinding
-import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.response.GenresMovie
-import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.response.MultiMedia
-import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 
 class MovieHorizontalAdapter(
     listMedia: ArrayList<MultiMedia>,

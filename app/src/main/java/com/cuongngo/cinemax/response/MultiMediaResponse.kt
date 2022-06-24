@@ -1,5 +1,7 @@
 package com.cuongngo.cinemax.response
 
+import com.cuongngo.cinemax.response.tv_response.TvDetailResponse
+
 data class MultiMediaResponse(
     val status_message: String?,
     val status_code: Int?,
@@ -30,3 +32,19 @@ data class MultiMedia(
     val original_name: String?,
     val first_air_date: String?
 ): BaseModel()
+
+data class MediaDetailResponse(
+    var movieDetail: MovieDetailResponse?,
+    var tvDetail: TvDetailResponse?,
+    var media_type: String?
+): BaseModel(){
+    fun setMovieData(movie: MovieDetailResponse){
+        movieDetail = movie
+    }
+    fun setTvData(tv: TvDetailResponse){
+        tvDetail = tv
+    }
+    fun setMediaType(type: String){
+        media_type = type
+    }
+}

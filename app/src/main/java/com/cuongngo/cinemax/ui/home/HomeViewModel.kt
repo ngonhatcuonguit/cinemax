@@ -8,12 +8,12 @@ import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.services.network.BaseResult
-import com.cuongngo.cinemax.services.repository.MovieRepository
+import com.cuongngo.cinemax.services.repository.MediaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel (private val movieRepository: MovieRepository): BaseViewModel() {
+class HomeViewModel (private val mediaRepository: MediaRepository): BaseViewModel() {
     private val _movieDetail = MutableLiveData<BaseResult<MovieDetailResponse>>()
     val movieDetail: LiveData<BaseResult<MovieDetailResponse>> get() = _movieDetail
 
@@ -44,7 +44,7 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
         _movieDetail.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _movieDetail.postValue(movieRepository.getMovieDetail(movieId))
+                _movieDetail.postValue(mediaRepository.getMovieDetail(movieId))
             }
         }
     }
@@ -53,7 +53,7 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
         _listMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                _listMovie.postValue(movieRepository.getUpcoming())
+                _listMovie.postValue(mediaRepository.getUpcoming())
             }
         }
     }
@@ -62,7 +62,7 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
         _listGenreMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                _listGenreMovie.postValue(movieRepository.getGenresMovie())
+                _listGenreMovie.postValue(mediaRepository.getGenresMovie())
             }
         }
     }
@@ -70,7 +70,7 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
         _listGenreTV.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                _listGenreTV.postValue(movieRepository.getGenresTV())
+                _listGenreTV.postValue(mediaRepository.getGenresTV())
             }
         }
     }
@@ -80,7 +80,7 @@ class HomeViewModel (private val movieRepository: MovieRepository): BaseViewMode
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 _listPopularMovie.postValue(
-                    movieRepository.getPopularMovie(page)
+                    mediaRepository.getPopularMovie(page)
                 )
             }
         }

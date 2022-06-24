@@ -1,9 +1,6 @@
 package com.cuongngo.cinemax.ui.home
 
-import android.app.Activity
 import android.os.Handler
-import android.provider.ContactsContract
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
@@ -14,17 +11,14 @@ import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.response.Movie
-import com.cuongngo.cinemax.roomdb.AppDatabase
 import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
-import com.cuongngo.cinemax.ui.movie.detail.MovieDetailActivity
-import com.cuongngo.cinemax.ui.movie.list_move.MovieAdapter
+import com.cuongngo.cinemax.ui.media.detail.MediaDetailActivity
+import com.cuongngo.cinemax.ui.media.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.search.SearchActivity
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener, MovieAdapter.SelectedListener {
@@ -67,7 +61,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                             data = it.data?.results ?: return@onResultReceived,
                             viewPager2 = binding.vpTopViewpager,
                             onItemClick = {
-                                startActivity(MovieDetailActivity().newIntent(requireActivity(),it.id.orEmpty(), "movie"))
+                                startActivity(MediaDetailActivity().newIntent(requireActivity(),it.id.orEmpty(), "movie"))
                             }
                         ),
                         onPageChanged = {}
@@ -176,7 +170,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
 
 
     override fun onSelectedListener(movie: Movie) {
-        startActivity(MovieDetailActivity().newIntent(requireActivity(),movie.id.orEmpty(), "movie"))
+        startActivity(MediaDetailActivity().newIntent(requireActivity(),movie.id.orEmpty(), ""))
     }
 
     companion object{

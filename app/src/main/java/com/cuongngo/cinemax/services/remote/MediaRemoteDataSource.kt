@@ -1,13 +1,17 @@
 package com.cuongngo.cinemax.services.remote
 
-import com.cuongngo.cinemax.services.MovieApi
+import com.cuongngo.cinemax.services.MediaApi
 import com.cuongngo.cinemax.services.network.BaseRemoteDataSource
 
-class MovieRemoteDataSource(private val apiService: MovieApi) : BaseRemoteDataSource() {
+class MediaRemoteDataSource(private val apiService: MediaApi) : BaseRemoteDataSource() {
     //get detail
     suspend fun getMovieDetail(
         movie_id: String?
     ) = getResult { apiService.getMovieDetail(movie_id) }
+
+    suspend fun getTvDetail(
+        tv_id: String?
+    ) = getResult { apiService.getTvDetail(tv_id) }
 
     //get upcoming
     suspend fun getUpcoming() = getResult { apiService.getUpcoming() }
