@@ -54,6 +54,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                 )
             }
         }
+        setupRecycleViewListMovie()
     }
 
     private val sliderRunnable = Runnable {
@@ -115,7 +116,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                 onSuccess = {
                     binding.flProgressBar.isVisible = false
                     hideProgressDialog()
-                    setupRecycleViewListMovie(it.data?.results ?: return@onResultReceived)
+                    movieAdapter.submitListMovie(it.data?.results ?: return@onResultReceived)
                     if (it.data.page == 1) {
                         viewModel.getGenresTV()
                     }
@@ -155,17 +156,10 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
         }
     }
 
-    private fun setupRecycleViewListMovie(listMovie: List<Movie>) {
+    private fun setupRecycleViewListMovie() {
 
         val gridLayoutManager =
             GridLayoutManager(requireActivity(), 1, RecyclerView.HORIZONTAL, false)
-
-        movieAdapter = MovieAdapter(
-            arrayListOf(),
-            listGenres,
-            this
-        )
-        movieAdapter.submitListMovie(listMovie)
 
         scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
@@ -173,11 +167,18 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
             }
         }
 
+        movieAdapter = MovieAdapter(
+            arrayListOf(),
+            listGenres,
+            this
+        )
+
         binding.rcvListMovie.apply {
             adapter = movieAdapter
             layoutManager = gridLayoutManager
             addOnScrollListener(scrollListener)
         }
+
     }
 
     private fun setupRcvCategories(listGenres: List<GenresMovie>) {
