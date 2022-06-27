@@ -8,12 +8,13 @@ import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemHorizontalMovieBinding
 import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.MultiMedia
+import com.cuongngo.cinemax.response.MultiMediaResponse
 
 class MovieHorizontalAdapter(
     listMedia: ArrayList<MultiMedia>,
     listGenre: ArrayList<GenresMovie>?,
     private val onItemClick: ((MultiMedia) -> Unit)? = null
-): RecyclerView.Adapter<MovieHorizontalAdapter.MovieHorizontalViewHolder>() {
+) : RecyclerView.Adapter<MovieHorizontalAdapter.MovieHorizontalViewHolder>() {
 
     private val listMedia = listMedia
     private val listGenre = listGenre
@@ -31,14 +32,18 @@ class MovieHorizontalAdapter(
 
     override fun onBindViewHolder(holder: MovieHorizontalViewHolder, position: Int) {
         val binding = holder.movieHorizontalMovieBinding
-        val media = listMedia[position]
+        var media: MultiMedia? = if (listMedia[position].media_type == "person") {
+            listMedia[position].known_for?.firstOrNull()
+        } else listMedia[position]
+
         binding.multiMedia = media
+
         binding.root.setOnClickListener {
-            onItemClick?.invoke(media)
+            onItemClick?.invoke(media ?: return@setOnClickListener)
         }
-        val genreID = media.genre_ids?.firstOrNull()
+        val genreID = media?.genre_ids?.firstOrNull()
         listGenre?.forEach {
-            if (it.id == genreID){
+            if (it.id == genreID) {
                 binding.tvGenre.text = it.name.toString()
             }
         }
@@ -48,14 +53,16 @@ class MovieHorizontalAdapter(
         return listMedia.size
     }
 
-    fun submitListMovie(listMedia: List<MultiMedia>){
-        this.listMedia.clear()
-        this.listMedia.addAll(listMedia)
+    fun submitListMovie(mediaResponse: MultiMediaResponse?) {
+        if (mediaResponse?.page == 1) {
+            this.listMedia.clear()
+        }
+        this.listMedia.addAll(mediaResponse?.results.orEmpty())
         notifyDataSetChanged()
     }
 
     class MovieHorizontalViewHolder(
         val movieHorizontalMovieBinding: ItemHorizontalMovieBinding
-    ): RecyclerView.ViewHolder(movieHorizontalMovieBinding.root)
+    ) : RecyclerView.ViewHolder(movieHorizontalMovieBinding.root)
 
 }

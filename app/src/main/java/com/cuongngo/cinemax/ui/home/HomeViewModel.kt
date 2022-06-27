@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel (private val mediaRepository: MediaRepository): BaseViewModel() {
+class HomeViewModel(private val mediaRepository: MediaRepository) : BaseViewModel() {
     private val _movieDetail = MutableLiveData<BaseResult<MovieDetailResponse>>()
     val movieDetail: LiveData<BaseResult<MovieDetailResponse>> get() = _movieDetail
 
@@ -49,36 +49,37 @@ class HomeViewModel (private val mediaRepository: MediaRepository): BaseViewMode
         }
     }
 
-    fun getUpcoming(){
+    fun getUpcoming() {
         _listMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 _listMovie.postValue(mediaRepository.getUpcoming())
             }
         }
     }
 
-    fun getGenresMovie(){
+    fun getGenresMovie() {
         _listGenreMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 _listGenreMovie.postValue(mediaRepository.getGenresMovie())
             }
         }
     }
-    fun getGenresTV(){
+
+    fun getGenresTV() {
         _listGenreTV.value = BaseResult.loading(null)
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 _listGenreTV.postValue(mediaRepository.getGenresTV())
             }
         }
     }
 
-    fun getPopularMovie(){
+    fun getPopularMovie() {
         _listPopularMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 _listPopularMovie.postValue(
                     mediaRepository.getPopularMovie(page)
                 )
@@ -88,7 +89,7 @@ class HomeViewModel (private val mediaRepository: MediaRepository): BaseViewMode
 
     fun loadMoreMovie(maxPage: Int) {
         if (page < maxPage) {
-            page = page.plus(1)
+            page += 1
             if (keyword.isNullOrEmpty()) {
                 getPopularMovie()
             } else {

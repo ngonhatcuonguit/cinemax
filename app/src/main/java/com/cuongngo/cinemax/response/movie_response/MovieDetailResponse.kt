@@ -10,6 +10,7 @@ data class MovieDetailResponse(
     val backdrop_path: String?,
     val budget: Long?,
     val genre_ids: List<Int>?,
+    val genres: List<GenresMovie>?,
     val homepage: String?,
     val imdb_id: String?,
     val original_language: String?,
@@ -27,11 +28,11 @@ data class MovieDetailResponse(
     val video: Boolean?,
     val vote_average: Float?,
     val vote_count: Long?
-): Serializable
+): BaseModel()
 
 data class ProductionCompanies(
     val id: String?,
     val name: String?,
     val logo_path: String?,
     val origin_country: String?,
-): Serializable
+): BaseModel()

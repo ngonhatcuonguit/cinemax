@@ -7,13 +7,13 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.activity.BaseActivity
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.SearchActivityBinding
-import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
@@ -35,6 +35,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 
     private var currentKeyword: String? = null
     private var totalPages: Int = 1
+    private var isMore: Boolean = true
 
     private lateinit var horizontalMovieAdapter: MovieHorizontalAdapter
 
@@ -50,23 +51,25 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
         binding.tvCancel.setOnClickListener {
             binding.edtSearch.setText("")
             binding.edtSearch.requestFocus()
-            horizontalMovieAdapter.submitListMovie(arrayListOf())
+            showKeyBoard()
         }
-        setupSearchMovie()
+        setupSearchMulti()
         setupRecycleViewListMovie()
-        WTF("test genres $genres")
     }
 
     override fun setUpObserver() {
-        observeLiveDataChanged(searchViewModel.searchMulti){
+        observeLiveDataChanged(searchViewModel.searchMulti) {
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    WTF("test movie ${it.data?.results}")
-                    horizontalMovieAdapter.submitListMovie(it.data?.results ?:return@onResultReceived)
+                    totalPages = it.data?.total_pages ?: return@onResultReceived
+                    if (it.data.results.orEmpty().size <= 20) {
+                        isMore = false
+                    }
+                    horizontalMovieAdapter.submitListMovie(it.data)
                 },
                 onError = {
                     hideProgressDialog()
@@ -77,29 +80,61 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
     }
 
     private fun setupRecycleViewListMovie() {
+
+        val gridLayoutManager = GridLayoutManager(this, 1)
+
         horizontalMovieAdapter = MovieHorizontalAdapter(
             arrayListOf(),
             genres?.genres,
             onItemClick = {
-                startActivity(MediaDetailActivity().newIntent(this,it.id.orEmpty(), it.media_type.orEmpty()) )
+                startActivity(
+                    MediaDetailActivity().newIntent(
+                        this,
+                        it.id.orEmpty(),
+                        it.media_type.orEmpty()
+                    )
+                )
             }
         )
+
+        scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                searchViewModel.loadMoreSearch(totalPages)
+            }
+        }
+
         binding.rcvListMovieSearch.apply {
             adapter = horizontalMovieAdapter
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = gridLayoutManager
+            addOnScrollListener(scrollListener)
         }
+
+        //setup load more
+//        binding.rcvListMovieSearch.let {
+//            it.addOnScrollListener( object : RecyclerView.OnScrollListener(){
+//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                    if (!isMore && dy > 20){
+//                        val total = (it.layoutManager as? LinearLayoutManager)!!.itemCount
+//                        val lastItem = (it.layoutManager as? LinearLayoutManager)!!.findLastVisibleItemPosition()
+//                        if (lastItem == total - 1){
+//
+//                        }
+//                    }
+//                }
+//            })
+//        }
     }
 
     /**
      *  Setup search movie
      * */
-    private fun setupSearchMovie() {
+    private fun setupSearchMulti() {
         compositeDisposable =
             binding.edtSearch.textChangeEvents().skip(1).debounce(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread()).subscribe {
                     currentKeyword = it.text.toString()
                     if (currentKeyword != searchViewModel.keyword) {
-                        searchViewModel.keyword = currentKeyword
+                        searchViewModel.updateKeyword(currentKeyword)
                         searchViewModel.page = 1
                         if (searchViewModel.keyword.isNullOrEmpty()) {
                             Log.d("test_search", "getPopularMovie $currentKeyword")
@@ -107,9 +142,9 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
                         } else {
                             Log.d("test_search", "searchMovie $currentKeyword")
                             searchViewModel.searchMulti()
+                            hideKeyboard()
                         }
                     }
-                    hideKeyboard()
                 }
     }
 
@@ -141,7 +176,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
         fun newIntent(
             context: Context,
             genresMovieResponse: GenresMovieResponse
-        ): Intent{
+        ): Intent {
             return Intent(context, SearchActivity::class.java).apply {
                 putExtra(LIST_GENRE, genresMovieResponse)
             }

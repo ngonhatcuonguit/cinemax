@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark">#1F1D2B</color>
     <color name="transparent">#00000000</color>
+    <color name="blue_accent">#12CDD9</color>
 </resources>

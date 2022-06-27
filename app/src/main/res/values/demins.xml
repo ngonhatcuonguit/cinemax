@@ -6,6 +6,7 @@
     <dimen name="banner_height">154dp</dimen>
     <dimen name="banner_width">295</dimen>
     <dimen name="banner_spacing">12dp</dimen>
+    <dimen name="_10dp">10dp</dimen>
     <dimen name="_12dp">12dp</dimen>
     <dimen name="_24dp">24dp</dimen>
 </resources>

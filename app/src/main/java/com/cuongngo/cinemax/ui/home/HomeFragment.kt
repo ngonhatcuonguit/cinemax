@@ -1,11 +1,15 @@
 package com.cuongngo.cinemax.ui.home
 
 import android.os.Handler
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
+import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.HomeFragmentBinding
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.GenresMovie
@@ -21,7 +25,8 @@ import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
 import kotlinx.coroutines.launch
 
-class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), GenreAdapter.SelectedListener, MovieAdapter.SelectedListener {
+class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
+    GenreAdapter.SelectedListener, MovieAdapter.SelectedListener {
 
     override val viewModel: HomeViewModel by kodeinViewModel()
 
@@ -35,17 +40,23 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
     private var listLocalGenres: List<GenreEntity> = emptyList()
     private var listGenres: ArrayList<GenresMovie> = arrayListOf()
     private var genreSelected: GenresMovie? = null
-    private var genresMovieResponse:  GenresMovieResponse? = null
+    private var genresMovieResponse: GenresMovieResponse? = null
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun setUp() {
         with(binding) {
             clSearch.setOnClickListener {
-                startActivity(SearchActivity.newIntent(requireActivity(), genresMovieResponse ?: return@setOnClickListener))
+                startActivity(
+                    SearchActivity.newIntent(
+                        requireActivity(),
+                        genresMovieResponse ?: return@setOnClickListener
+                    )
+                )
             }
         }
     }
 
-    private val sliderRunnable= Runnable{
+    private val sliderRunnable = Runnable {
         binding.vpTopViewpager.currentItem = binding.vpTopViewpager.currentItem + 1
     }
 
@@ -61,42 +72,24 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
                             data = it.data?.results ?: return@onResultReceived,
                             viewPager2 = binding.vpTopViewpager,
                             onItemClick = {
-                                startActivity(MediaDetailActivity().newIntent(requireActivity(),it.id.orEmpty(), "movie"))
+                                startActivity(
+                                    MediaDetailActivity().newIntent(
+                                        requireActivity(),
+                                        it.id.orEmpty(),
+                                        "movie"
+                                    )
+                                )
                             }
                         ),
                         onPageChanged = {}
                     ).autoScroll(lifecycleScope, 3000)
                         .execute()
                 },
-                onError = {}
+                onError = { }
             )
         }
 
-        observeLiveDataChanged(viewModel.listPopularMovie) {
-            it.onResultReceived(
-                onLoading = {},
-                onSuccess = {
-                    hideProgressDialog()
-                    setupRecycleViewListMovie(it.data?.results ?: return@onResultReceived)
-                    viewModel.getGenresTV()
-                },
-                onError = {
-                    hideProgressDialog()
-                }
-            )
-        }
-
-        observeLiveDataChanged(viewModel.listGenreTV) {
-            it.onResultReceived(
-                onLoading = {},
-                onSuccess = {
-                    genresMovieResponse?.addGenres(it.data?.genres.orEmpty() as ArrayList<GenresMovie>)
-                },
-                onError = {}
-            )
-        }
-
-        observeLiveDataChanged(viewModel.listGenres){
+        observeLiveDataChanged(viewModel.listGenres) {
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
@@ -114,44 +107,97 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
             )
         }
 
+        observeLiveDataChanged(viewModel.listPopularMovie) {
+            it.onResultReceived(
+                onLoading = {
+                    binding.flProgressBar.isVisible = true
+                },
+                onSuccess = {
+                    binding.flProgressBar.isVisible = false
+                    hideProgressDialog()
+                    setupRecycleViewListMovie(it.data?.results ?: return@onResultReceived)
+                    if (it.data.page == 1) {
+                        viewModel.getGenresTV()
+                    }
+                    totalPages = it.data.total_pages ?: return@onResultReceived
+                },
+                onError = {
+                    hideProgressDialog()
+                    binding.flProgressBar.isVisible = false
+                }
+            )
+        }
+
+        observeLiveDataChanged(viewModel.listGenreTV) {
+            it.onResultReceived(
+                onLoading = {},
+                onSuccess = {
+                    genresMovieResponse?.addGenres(it.data?.genres.orEmpty() as ArrayList<GenresMovie>)
+                },
+                onError = {}
+            )
+        }
+
     }
 
     private fun setupGenreLocal(listGenre: List<GenresMovie>) {
         App.getGenreDatabase().getGenres().let { list ->
-            if (list.isEmpty()){
+            if (list.isEmpty()) {
                 lifecycleScope.launch {
-                    listGenre.forEach{ genre ->
-                        App.getGenreDatabase().addGenre(GenreEntity(genre.id.toString(), genre.name.orEmpty()))
+                    listGenre.forEach { genre ->
+                        App.getGenreDatabase()
+                            .addGenre(GenreEntity(genre.id.toString(), genre.name.orEmpty()))
                     }
                 }
-            }else{ }
+            } else {
+            }
             listLocalGenres = App.getGenreDatabase().getGenres()
         }
     }
 
     private fun setupRecycleViewListMovie(listMovie: List<Movie>) {
+
+        val gridLayoutManager =
+            GridLayoutManager(requireActivity(), 1, RecyclerView.HORIZONTAL, false)
+
         movieAdapter = MovieAdapter(
             arrayListOf(),
             listGenres,
             this
         )
         movieAdapter.submitListMovie(listMovie)
+
+        scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                loadNextDataFromApi()
+            }
+        }
+
         binding.rcvListMovie.apply {
             adapter = movieAdapter
+            layoutManager = gridLayoutManager
+            addOnScrollListener(scrollListener)
         }
     }
 
-    private fun setupRcvCategories(listGenres: List<GenresMovie>){
+    private fun setupRcvCategories(listGenres: List<GenresMovie>) {
         genreAdapter = GenreAdapter(
             arrayListOf(),
             this
         )
-        if (genreSelected == null){
+        if (genreSelected == null) {
             listGenres.firstOrNull()?.is_selected = true
             genreSelected = listGenres.firstOrNull()
         }
         genreAdapter.submitListGenres(listGenres)
         binding.rcvListGenres.adapter = genreAdapter
+    }
+
+    /**
+     *  Load more movie result
+     * */
+    private fun loadNextDataFromApi() {
+        viewModel.loadMoreMovie(totalPages)
     }
 
     override fun onSelectedListener(genre: GenresMovie) {
@@ -170,10 +216,10 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(), Gen
 
 
     override fun onSelectedListener(movie: Movie) {
-        startActivity(MediaDetailActivity().newIntent(requireActivity(),movie.id.orEmpty(), ""))
+        startActivity(MediaDetailActivity().newIntent(requireActivity(), movie.id.orEmpty(), ""))
     }
 
-    companion object{
+    companion object {
         val TAG = HomeFragment::class.java.simpleName
     }
 

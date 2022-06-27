@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SearchViewModel (private val mediaRepository: MediaRepository) : BaseViewModel() {
+class SearchViewModel(private val mediaRepository: MediaRepository) : BaseViewModel() {
 
     private val _searchMulti = MutableLiveData<BaseResult<MultiMediaResponse>>()
     val searchMulti: LiveData<BaseResult<MultiMediaResponse>> get() = _searchMulti
@@ -21,10 +21,16 @@ class SearchViewModel (private val mediaRepository: MediaRepository) : BaseViewM
     val listPopularMovie: LiveData<BaseResult<MovieResponse>> get() = _listPopularMovie
 
     var page: Int = 1
+    var preKeyword: String? = null
     var keyword: String? = null
 
     init {
 //        getPopularMovie()
+    }
+
+    fun updateKeyword(currentKeyword: String?) {
+        preKeyword = keyword
+        keyword = currentKeyword
     }
 
     fun searchMulti() {
@@ -36,13 +42,33 @@ class SearchViewModel (private val mediaRepository: MediaRepository) : BaseViewM
         }
     }
 
-    fun getPopularMovie(){
+    fun searchMultiPreKeyword() {
+        _searchMulti.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _searchMulti.postValue(mediaRepository.searchMedia(preKeyword, page))
+            }
+        }
+    }
+
+    fun getPopularMovie() {
         _listPopularMovie.value = BaseResult.loading(null)
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 _listPopularMovie.postValue(
                     mediaRepository.getPopularMovie(page)
                 )
+            }
+        }
+    }
+
+    fun loadMoreSearch(maxPage: Int) {
+        if (page < maxPage) {
+            page += 1
+            if (!keyword.isNullOrEmpty()) {
+                searchMulti()
+            } else {
+                searchMultiPreKeyword()
             }
         }
     }

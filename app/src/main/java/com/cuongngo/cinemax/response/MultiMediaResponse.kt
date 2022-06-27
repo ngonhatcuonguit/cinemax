@@ -9,42 +9,46 @@ data class MultiMediaResponse(
     val total_pages: Int?,
     val total_results: Int?,
     val results: List<MultiMedia>?
-): BaseModel()
+) : BaseModel()
 
 data class MultiMedia(
-    val id: String?,
-    val media_type: String?,
-    val adult: Boolean?,
-    val backdrop_path: String?,
-    val genre_ids: List<Int>?,
-    val original_language: String?,
-    val original_title: String?,
-    val overview: String?,
-    val popularity: Float?,
-    val poster_path: String?,
-    val release_date: String?,
-    val title: String?,
-    val video: Boolean?,
-    val vote_average: Float?,
-    val vote_count: Long?,
-    val name: String?,
-    val origin_country: List<String>?,
-    val original_name: String?,
-    val first_air_date: String?
-): BaseModel()
+    var id: String?,
+    var media_type: String?,
+    var adult: Boolean?,
+    var backdrop_path: String?,
+    var genre_ids: List<Int>?,
+    var original_language: String?,
+    var original_title: String?,
+    var overview: String?,
+    var popularity: Float?,
+    var poster_path: String?,
+    var release_date: String?,
+    var title: String?,
+    var video: Boolean?,
+    var vote_average: Float?,
+    var vote_count: Long?,
+    var name: String?,
+    var origin_country: List<String>?,
+    var original_name: String?,
+    val first_air_date: String?,
+    var known_for: List<MultiMedia>?,
+    var known_for_department: String?
+) : BaseModel()
 
 data class MediaDetailResponse(
     var movieDetail: MovieDetailResponse?,
     var tvDetail: TvDetailResponse?,
     var media_type: String?
-): BaseModel(){
-    fun setMovieData(movie: MovieDetailResponse){
+) : BaseModel() {
+    fun setMovieData(movie: MovieDetailResponse) {
         movieDetail = movie
     }
-    fun setTvData(tv: TvDetailResponse){
+
+    fun setTvData(tv: TvDetailResponse) {
         tvDetail = tv
     }
-    fun setMediaType(type: String){
+
+    fun setMediaType(type: String) {
         media_type = type
     }
 }

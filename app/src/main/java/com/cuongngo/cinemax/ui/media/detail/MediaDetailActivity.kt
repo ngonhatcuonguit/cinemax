@@ -47,12 +47,12 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
 
     override fun setUp() {
         mediaDetail.setMediaType(mediaType)
-        if (mediaType == "tv"){
+        if (mediaType == "tv") {
             viewModel.getTvDetail(mediaID)
             WTF("tv_type $mediaType $mediaDetail")
-        }else viewModel.getMovieDetail(mediaID)
+        } else viewModel.getMovieDetail(mediaID)
 
-        with(binding){
+        with(binding) {
             layoutAppBar.ivBack.setOnClickListener {
                 onBackPressed()
             }
@@ -60,48 +60,33 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
     }
 
     override fun setUpObserver() {
-        observeLiveDataChanged(viewModel.movieDetail){
+        observeLiveDataChanged(viewModel.movieDetail) {
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
                 },
                 onSuccess = { detail ->
                     hideProgressDialog()
-                    mediaDetail.setMovieData(detail.data ?:return@onResultReceived)
+                    mediaDetail.setMovieData(detail.data ?: return@onResultReceived)
                     binding.mediaDetail = mediaDetail
                     binding.layoutAppBar.tvTitle.text = detail.data.title.toString()
-
-                    if (mediaDetail.media_type == "tv"){
-                        loadImagePath(binding.ivPoster, mediaDetail.tvDetail?.poster_path)
-                    }else loadImagePath(binding.ivPoster, mediaDetail.movieDetail?.poster_path)
-
-                    if (mediaDetail.media_type == "tv"){
-                        loadImagePath(binding.cvAvatar, mediaDetail.tvDetail?.poster_path)
-                    }else loadImagePath(binding.cvAvatar, mediaDetail.movieDetail?.poster_path)
+                    bindSateDetail()
                 },
                 onError = {
                     hideProgressDialog()
                 }
             )
         }
-        observeLiveDataChanged(viewModel.tvDetail){
+        observeLiveDataChanged(viewModel.tvDetail) {
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
                 },
                 onSuccess = { detail ->
                     hideProgressDialog()
-                    mediaDetail.setTvData(detail.data ?:return@onResultReceived)
+                    mediaDetail.setTvData(detail.data ?: return@onResultReceived)
                     binding.mediaDetail = mediaDetail
-                    binding.layoutAppBar.tvTitle.text = detail.data.name.toString()
-
-                    if (mediaDetail.media_type == "tv"){
-                        loadImagePath(binding.ivPoster, mediaDetail.tvDetail?.poster_path)
-                    }else loadImagePath(binding.ivPoster, mediaDetail.movieDetail?.poster_path)
-
-                    if (mediaDetail.media_type == "tv"){
-                        loadImagePath(binding.cvAvatar, mediaDetail.tvDetail?.poster_path)
-                    }else loadImagePath(binding.cvAvatar, mediaDetail.movieDetail?.poster_path)
+                    bindSateDetail()
                 },
                 onError = {
                     hideProgressDialog()
@@ -109,4 +94,32 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
             )
         }
     }
+
+    private fun bindSateDetail() {
+        if (mediaDetail.media_type == "tv") {
+            val tvDetail = mediaDetail.tvDetail
+            with(binding) {
+                loadImagePath(ivPoster, tvDetail?.poster_path)
+                loadImagePath(cvAvatar, tvDetail?.poster_path)
+                layoutAppBar.tvTitle.text = tvDetail?.name.toString()
+                tvReleaseYear.text = tvDetail?.first_air_date.toString()
+                tvDuration.text = tvDetail?.last_episode_to_air?.runtime.toString() + " Minutes"
+                tvCategory.text = tvDetail?.genres?.firstOrNull()?.name
+                tvRating.text = tvDetail?.vote_average.toString()
+            }
+
+        } else {
+            val movieDetail = mediaDetail.movieDetail
+            with(binding) {
+                loadImagePath(ivPoster, movieDetail?.poster_path)
+                loadImagePath(cvAvatar, movieDetail?.poster_path)
+                layoutAppBar.tvTitle.text = movieDetail?.title.toString()
+                tvReleaseYear.text = movieDetail?.release_date.toString()
+                tvDuration.text = movieDetail?.runtime.toString() + " Minutes"
+                tvCategory.text = movieDetail?.genres?.firstOrNull()?.name
+                tvRating.text = movieDetail?.vote_average.toString()
+            }
+        }
+    }
+
 }
