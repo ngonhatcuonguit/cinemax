@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
-import com.cuongngo.cinemax.databinding.ItemHorizontalMovieBinding
+import com.cuongngo.cinemax.databinding.ItemHorizontalMediaBinding
 import com.cuongngo.cinemax.response.MultiMedia
 import com.cuongngo.cinemax.response.MultiMediaResponse
 import com.cuongngo.cinemax.utils.Constants
@@ -22,7 +22,7 @@ class MovieHorizontalAdapter(
         return MovieHorizontalViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_horizontal_movie,
+                R.layout.item_horizontal_media,
                 parent,
                 false
             )
@@ -30,7 +30,7 @@ class MovieHorizontalAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieHorizontalViewHolder, position: Int) {
-        val binding = holder.movieHorizontalMovieBinding
+        val binding = holder.mediaHorizontalMovieBinding
         var media: MultiMedia? = if (listMedia[position].media_type == Constants.MediaType.TV) {
             listMedia[position].known_for?.firstOrNull()
         } else listMedia[position]
@@ -61,7 +61,7 @@ class MovieHorizontalAdapter(
     }
 
     class MovieHorizontalViewHolder(
-        val movieHorizontalMovieBinding: ItemHorizontalMovieBinding
-    ) : RecyclerView.ViewHolder(movieHorizontalMovieBinding.root)
+        val mediaHorizontalMovieBinding: ItemHorizontalMediaBinding
+    ) : RecyclerView.ViewHolder(mediaHorizontalMovieBinding.root)
 
 }

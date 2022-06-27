@@ -42,7 +42,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{multiMedia.vote_average.toString()}"
+                roundRating="@{multiMedia.vote_average}"
                 android:textStyle="bold"
                 android:textColor="#FF8700"
                 android:textSize="12sp"

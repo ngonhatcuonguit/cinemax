@@ -39,3 +39,9 @@ fun bindMediaDetailDate(textView: TextView, mediaDetailResponse: MediaDetailResp
         textView.text = mediaDetailResponse.tvDetail?.first_air_date
     } else textView.text = mediaDetailResponse.movieDetail?.release_date
 }
+
+@BindingAdapter("roundRating")
+fun roundRating(textView: TextView, vote: Float){
+    val rounded = String.format("%.1f", vote)
+    textView.text = rounded
+}

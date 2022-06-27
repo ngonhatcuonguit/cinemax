@@ -78,6 +78,7 @@
                 app:srcCompat="@drawable/ic_search_gray" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_hint_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
@@ -87,10 +88,11 @@
                 android:maxLines="1"
                 android:textColor="#92929D"
                 android:textSize="14sp"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 app:layout_constraintStart_toEndOf="@id/iv_search"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/view_space"/>
 
             <View
                 android:id="@+id/view_space"

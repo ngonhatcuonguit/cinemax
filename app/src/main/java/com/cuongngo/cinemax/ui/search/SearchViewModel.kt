@@ -73,7 +73,7 @@ class SearchViewModel(private val mediaRepository: MediaRepository) : BaseViewMo
                 _trendingMedia.postValue(
                     mediaRepository.getTrending(
                         media_type = Constants.MediaType.MOVIE,
-                        time_window = Constants.TimeWindow.WEEK,
+                        time_window = Constants.TimeWindow.DAY,
                         page = 1
                     )
                 )
@@ -89,6 +89,13 @@ class SearchViewModel(private val mediaRepository: MediaRepository) : BaseViewMo
             } else {
                 searchMultiPreKeyword()
             }
+        }
+    }
+
+    fun loadMorePopular(maxPage: Int){
+        if (page < maxPage){
+            page += page
+            getPopularMovie()
         }
     }
 

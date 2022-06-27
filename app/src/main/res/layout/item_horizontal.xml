@@ -42,8 +42,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{movie.vote_average.toString()}"
                 android:textStyle="bold"
+                roundRating="@{movie.vote_average}"
                 android:textColor="#FF8700"
                 android:textSize="12sp"
                 android:drawableStart="@drawable/ic_start_rating"

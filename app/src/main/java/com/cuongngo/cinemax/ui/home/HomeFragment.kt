@@ -25,6 +25,7 @@ import com.cuongngo.cinemax.ui.media.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.search.SearchActivity
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
+import com.cuongngo.cinemax.utils.Constants
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
@@ -47,7 +48,14 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
 
     override fun setUp() {
         with(binding) {
-            clSearch.setOnClickListener {
+            tvHintSearch.setOnClickListener {
+                startActivity(
+                    SearchActivity.newIntent(
+                        requireActivity()
+                    )
+                )
+            }
+            ivSearch.setOnClickListener {
                 startActivity(
                     SearchActivity.newIntent(
                         requireActivity()
@@ -220,7 +228,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
 
 
     override fun onSelectedListener(movie: Movie) {
-        startActivity(MediaDetailActivity().newIntent(requireActivity(), movie.id.orEmpty(), ""))
+        startActivity(MediaDetailActivity().newIntent(requireActivity(), movie.id.orEmpty(), Constants.MediaType.MOVIE))
     }
 
     companion object {
