@@ -14,9 +14,9 @@ import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.HomeFragmentBinding
 import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
+import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.response.movie_response.GenresMovie
 import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
-import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
@@ -86,7 +86,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                                     MediaDetailActivity().newIntent(
                                         requireActivity(),
                                         it.id.orEmpty(),
-                                        "movie"
+                                        Constants.MediaType.MOVIE
                                     )
                                 )
                             }

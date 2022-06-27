@@ -45,3 +45,10 @@ fun roundRating(textView: TextView, vote: Float){
     val rounded = String.format("%.1f", vote)
     textView.text = rounded
 }
+
+@BindingAdapter("bindOverView")
+fun bindOverView(textView: TextView, mediaDetailResponse: MediaDetailResponse?){
+    if (mediaDetailResponse?.media_type == Constants.MediaType.TV) {
+        textView.text = mediaDetailResponse.tvDetail?.overview
+    } else textView.text = mediaDetailResponse?.movieDetail?.overview
+}

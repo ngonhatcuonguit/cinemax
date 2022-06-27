@@ -2,11 +2,11 @@ package com.cuongngo.cinemax.ui.media.detail
 
 import android.content.Context
 import android.content.Intent
+import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.activity.AppBaseActivityMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.databinding.ActivityDetailMovieBinding
-import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.MediaDetailResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
@@ -54,6 +54,14 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
         with(binding) {
             layoutAppBar.ivBack.setOnClickListener {
                 onBackPressed()
+            }
+
+            tvOverview.apply{
+                setShowingLine(4)
+                setShowLessTextColor(App.getResources().getColor(R.color.blue_accent))
+                setShowMoreTextColor(App.getResources().getColor(R.color.blue_accent))
+                addShowLessText("Less")
+                addShowMoreText("More")
             }
         }
     }

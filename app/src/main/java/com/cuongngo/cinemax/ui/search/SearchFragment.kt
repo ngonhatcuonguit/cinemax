@@ -43,6 +43,15 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
                 )
             }
             layoutToday.movie = todayMovie
+            layoutToday.root.setOnClickListener {
+                startActivity(
+                    MediaDetailActivity().newIntent(
+                        requireActivity(),
+                        todayMovie?.id.orEmpty(),
+                        Constants.MediaType.MOVIE
+                    )
+                )
+            }
 
             val genreID = todayMovie?.genre_ids?.firstOrNull()
 
@@ -51,8 +60,9 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
                     layoutToday.tvGenre.text = it.name
                 }
             }
-            setupRcvCategories()
         }
+
+        setupRcvCategories()
         setupRecycleViewListMovie()
         viewModel.getPopularMovie()
 
