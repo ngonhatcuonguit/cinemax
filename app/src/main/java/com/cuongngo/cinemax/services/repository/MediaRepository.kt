@@ -1,12 +1,13 @@
 package com.cuongngo.cinemax.services.repository
 
-import com.cuongngo.cinemax.response.GenresMovieResponse
+import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
 import com.cuongngo.cinemax.response.tv_response.TvDetailResponse
 import com.cuongngo.cinemax.services.network.BaseResult
 import com.cuongngo.cinemax.services.remote.MediaRemoteDataSource
+import com.cuongngo.cinemax.utils.Constants
 
 class MediaRepository(private val mediaRemoteDataSource: MediaRemoteDataSource) {
     suspend fun getMovieDetail(
@@ -42,6 +43,22 @@ class MediaRepository(private val mediaRemoteDataSource: MediaRemoteDataSource) 
         page: Int?
     ): BaseResult<MultiMediaResponse> {
         return mediaRemoteDataSource.searchMedia(query, page)
+    }
+
+    suspend fun getTrending(
+        media_type: String,
+        time_window: String,
+        page: Int,
+    ): BaseResult<MultiMediaResponse> {
+        return mediaRemoteDataSource.getTrending(media_type, time_window, page)
+    }
+
+    suspend fun getTrendingMovie(
+        media_type: String? = Constants.MediaType.MOVIE,
+        time_window: String,
+        page: Int,
+    ): BaseResult<MovieResponse> {
+        return mediaRemoteDataSource.getTrendingMovie(media_type, time_window, page)
     }
 
 }

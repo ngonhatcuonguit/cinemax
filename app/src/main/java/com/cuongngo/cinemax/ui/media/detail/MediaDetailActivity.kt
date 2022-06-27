@@ -49,7 +49,6 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
         mediaDetail.setMediaType(mediaType)
         if (mediaType == "tv") {
             viewModel.getTvDetail(mediaID)
-            WTF("tv_type $mediaType $mediaDetail")
         } else viewModel.getMovieDetail(mediaID)
 
         with(binding) {

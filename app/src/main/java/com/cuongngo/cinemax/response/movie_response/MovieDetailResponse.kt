@@ -1,6 +1,6 @@
 package com.cuongngo.cinemax.response
 
-import java.io.Serializable
+import com.cuongngo.cinemax.response.movie_response.GenresMovie
 
 data class MovieDetailResponse(
     val status_message: String?,

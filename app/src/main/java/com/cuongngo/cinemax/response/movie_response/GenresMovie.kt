@@ -1,9 +1,11 @@
-package com.cuongngo.cinemax.response
+package com.cuongngo.cinemax.response.movie_response
+
+import com.cuongngo.cinemax.response.BaseModel
 
 data class GenresMovieResponse(
-    val status_message: String?,
-    val status_code: Int?,
-    val genres: ArrayList<GenresMovie>?
+    var status_message: String?,
+    var status_code: Int?,
+    var genres: ArrayList<GenresMovie>?
 ): BaseModel(){
     fun addGenres(list: ArrayList<GenresMovie>){
         genres?.addAll(list)

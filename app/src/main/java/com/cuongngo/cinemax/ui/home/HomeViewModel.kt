@@ -3,12 +3,15 @@ package com.cuongngo.cinemax.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.base.viewmodel.BaseViewModel
-import com.cuongngo.cinemax.response.GenresMovieResponse
+import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
+import com.cuongngo.cinemax.response.MultiMediaResponse
 import com.cuongngo.cinemax.services.network.BaseResult
 import com.cuongngo.cinemax.services.repository.MediaRepository
+import com.cuongngo.cinemax.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,13 +32,18 @@ class HomeViewModel(private val mediaRepository: MediaRepository) : BaseViewMode
     private val _listGenreTV = MutableLiveData<BaseResult<GenresMovieResponse>>()
     val listGenreTV: LiveData<BaseResult<GenresMovieResponse>> get() = _listGenreTV
 
+    private val _trendingMovie = MutableLiveData<BaseResult<MovieResponse>>()
+    val trendingMovie: LiveData<BaseResult<MovieResponse>> get() = _trendingMovie
+
     var page: Int = 1
     var keyword: String? = null
 
 
     init {
-        getGenresMovie()
-        getUpcoming()
+        if (App.getGenres().genres.isNullOrEmpty()){
+            getGenresMovie()
+        }
+        getTrending()
     }
 
     fun getMovieDetail(
@@ -54,6 +62,21 @@ class HomeViewModel(private val mediaRepository: MediaRepository) : BaseViewMode
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _listMovie.postValue(mediaRepository.getUpcoming())
+            }
+        }
+    }
+
+    fun getTrending() {
+        _trendingMovie.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _trendingMovie.postValue(
+                    mediaRepository.getTrendingMovie(
+                        media_type = Constants.MediaType.MOVIE,
+                        time_window = Constants.TimeWindow.WEEK,
+                        page = 1
+                    )
+                )
             }
         }
     }

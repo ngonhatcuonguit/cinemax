@@ -1,6 +1,6 @@
 package com.cuongngo.cinemax.services
 
-import com.cuongngo.cinemax.response.GenresMovieResponse
+import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
@@ -43,6 +43,22 @@ interface MediaApi {
         @Query("query") query: String? = null,
         @Query("page") page: Int? = null
     ): Response<MultiMediaResponse>
+
+    //get trending
+    @GET("trending/{media_type}/{time_window}")
+    suspend fun getTrending(
+        @Path("media_type") media_type: String?,
+        @Path("time_window") time_window: String?,
+        @Query("page") page: Int? = null
+    ): Response<MultiMediaResponse>
+
+    //get trending movie
+    @GET("trending/{media_type}/{time_window}")
+    suspend fun getTrendingMovie(
+        @Path("media_type") media_type: String?,
+        @Path("time_window") time_window: String?,
+        @Query("page") page: Int? = null
+    ): Response<MovieResponse>
 
     companion object {
         operator fun invoke(): MediaApi{

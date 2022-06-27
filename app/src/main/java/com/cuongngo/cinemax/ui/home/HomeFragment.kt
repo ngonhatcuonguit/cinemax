@@ -6,14 +6,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
+import com.cuongngo.cinemax.App.Companion.setListTrending
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.HomeFragmentBinding
+import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
-import com.cuongngo.cinemax.response.GenresMovie
-import com.cuongngo.cinemax.response.GenresMovieResponse
+import com.cuongngo.cinemax.response.movie_response.GenresMovie
+import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 import com.cuongngo.cinemax.services.network.onResultReceived
@@ -48,8 +50,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
             clSearch.setOnClickListener {
                 startActivity(
                     SearchActivity.newIntent(
-                        requireActivity(),
-                        genresMovieResponse ?: return@setOnClickListener
+                        requireActivity()
                     )
                 )
             }
@@ -62,7 +63,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
     }
 
     override fun setUpObserver() {
-        observeLiveDataChanged(viewModel.listMovie) {
+        observeLiveDataChanged(viewModel.trendingMovie) {
             it.onResultReceived(
                 onLoading = {},
                 onSuccess = {
@@ -85,6 +86,8 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                         onPageChanged = {}
                     ).autoScroll(lifecycleScope, 3000)
                         .execute()
+
+                    setListTrending(it.data ?:return@onResultReceived)
                 },
                 onError = { }
             )
@@ -98,8 +101,9 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                 onSuccess = {
                     listGenres = it.data?.genres ?: return@onResultReceived
                     genresMovieResponse = it.data
-                    setupRcvCategories(it.data.genres)
+                    setupRcvCategories(it.data.genres.orEmpty())
 //                    setupGenreLocal(it.data.genres)
+                    viewModel.getGenresTV()
                     viewModel.getPopularMovie()
                 },
                 onError = {
@@ -117,9 +121,6 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                     binding.flProgressBar.isVisible = false
                     hideProgressDialog()
                     movieAdapter.submitListMovie(it.data?.results ?: return@onResultReceived)
-                    if (it.data.page == 1) {
-                        viewModel.getGenresTV()
-                    }
                     totalPages = it.data.total_pages ?: return@onResultReceived
                 },
                 onError = {
@@ -134,6 +135,8 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                 onLoading = {},
                 onSuccess = {
                     genresMovieResponse?.addGenres(it.data?.genres.orEmpty() as ArrayList<GenresMovie>)
+                    App.setGenres(genresMovieResponse ?: return@onResultReceived)
+                    WTF("genres ${App.getGenres()}")
                 },
                 onError = {}
             )

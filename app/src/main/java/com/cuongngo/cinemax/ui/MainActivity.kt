@@ -10,6 +10,7 @@ import com.cuongngo.cinemax.base.activity.BaseActivity
 import com.cuongngo.cinemax.databinding.ActivityMainBinding
 import com.cuongngo.cinemax.roomdb.AppDatabase
 import com.cuongngo.cinemax.ui.home.HomeFragment
+import com.cuongngo.cinemax.ui.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -19,6 +20,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var navView: BottomNavigationView
 
     override fun inflateLayout(): Int = R.layout.activity_main
+
+    private var currentFragment = HomeFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +47,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.navigation_home -> {
                     val transaction = fragmentManager.beginTransaction()
                     transaction.show(homeFragment)
-//                    val homeFragment = fragmentManager.findFragmentByTag(HomeFragment.TAG)
-//                    if (homeFragment != null) {
-//                        transaction.remove(homeFragment)
-//                    }
+                    val searchFragment = fragmentManager.findFragmentByTag(SearchFragment.TAG)
+                    if (searchFragment != null) {
+                        transaction.remove(searchFragment)
+                    }
                     transaction.commit()
+                    currentFragment = HomeFragment.TAG
                 }
+                R.id.navigation_search -> {
+                    val transaction = fragmentManager.beginTransaction()
+                    transaction.hide(homeFragment)
+                    val searchFragment = fragmentManager.findFragmentByTag(SearchFragment.TAG)
+                    if (searchFragment == null){
+                        transaction.add(
+                            R.id.container,
+                            SearchFragment(),
+                            SearchFragment.TAG
+                        )
+                        transaction.commit()
+                        currentFragment = SearchFragment.TAG
+                    }else {
 
-
+                    }
+                }
             }
             return@setOnNavigationItemSelectedListener true
         }

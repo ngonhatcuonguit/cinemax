@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemCategoriesBinding
-import com.cuongngo.cinemax.response.GenresMovie
+import com.cuongngo.cinemax.response.movie_response.GenresMovie
 
 class GenreAdapter(
     listGenres: ArrayList<GenresMovie>,

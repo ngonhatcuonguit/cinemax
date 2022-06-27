@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.R
@@ -15,7 +16,6 @@ import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.SearchActivityBinding
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
-import com.cuongngo.cinemax.response.GenresMovieResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.media.detail.MediaDetailActivity
 import com.cuongngo.cinemax.ui.media.list_move.MovieHorizontalAdapter
@@ -39,7 +39,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 
     private lateinit var horizontalMovieAdapter: MovieHorizontalAdapter
 
-    private val genres by lazy { intent.getSerializableExtra(LIST_GENRE) as? GenresMovieResponse }
+//    private val genres by lazy { intent.getSerializableExtra(LIST_GENRE) as? GenresMovieResponse }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +65,7 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
                 },
                 onSuccess = {
                     hideProgressDialog()
+                    binding.ivEmptyList.isVisible = it.data?.results.isNullOrEmpty()
                     totalPages = it.data?.total_pages ?: return@onResultReceived
                     if (it.data.results.orEmpty().size <= 20) {
                         isMore = false
@@ -85,7 +86,6 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 
         horizontalMovieAdapter = MovieHorizontalAdapter(
             arrayListOf(),
-            genres?.genres,
             onItemClick = {
                 startActivity(
                     MediaDetailActivity().newIntent(
@@ -171,14 +171,12 @@ class SearchActivity : BaseActivity<SearchActivityBinding>() {
 
     companion object {
         val TAG = SearchActivity::class.java.simpleName
-        const val LIST_GENRE = "LIST_GENRE"
 
         fun newIntent(
-            context: Context,
-            genresMovieResponse: GenresMovieResponse
+            context: Context
         ): Intent {
             return Intent(context, SearchActivity::class.java).apply {
-                putExtra(LIST_GENRE, genresMovieResponse)
+//                putExtra(LIST_GENRE, genresMovieResponse)
             }
         }
 

@@ -24,4 +24,21 @@ class Constants {
             val CANCELLATION_EXCEPTION = -1000
         }
     }
+
+    class MediaType{
+        companion object{
+            const val ALL = "all"
+            const val MOVIE = "movie"
+            const val TV = "tv"
+            const val PERSON = "person"
+        }
+    }
+
+    class TimeWindow{
+        companion object{
+            const val DAY = "day"
+            const val WEEK = "week"
+        }
+    }
+
 }

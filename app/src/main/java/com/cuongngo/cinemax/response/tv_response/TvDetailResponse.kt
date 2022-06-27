@@ -1,7 +1,7 @@
 package com.cuongngo.cinemax.response.tv_response
 
 import com.cuongngo.cinemax.response.BaseModel
-import com.cuongngo.cinemax.response.GenresMovie
+import com.cuongngo.cinemax.response.movie_response.GenresMovie
 import com.cuongngo.cinemax.response.ProductionCompanies
 
 data class TvDetailResponse(

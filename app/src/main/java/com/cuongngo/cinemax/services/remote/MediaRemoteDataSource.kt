@@ -2,6 +2,7 @@ package com.cuongngo.cinemax.services.remote
 
 import com.cuongngo.cinemax.services.MediaApi
 import com.cuongngo.cinemax.services.network.BaseRemoteDataSource
+import com.cuongngo.cinemax.utils.Constants
 
 class MediaRemoteDataSource(private val apiService: MediaApi) : BaseRemoteDataSource() {
     //get detail
@@ -28,4 +29,16 @@ class MediaRemoteDataSource(private val apiService: MediaApi) : BaseRemoteDataSo
         query: String?,
         page: Int?
     ) = getResult { apiService.searchMedia(query, page) }
+
+    suspend fun getTrending(
+        media_type: String,
+        time_window: String,
+        page: Int,
+    ) = getResult { apiService.getTrending(media_type, time_window, page) }
+
+    suspend fun getTrendingMovie(
+        media_type: String? = Constants.MediaType.MOVIE,
+        time_window: String,
+        page: Int,
+    ) = getResult { apiService.getTrendingMovie(media_type, time_window, page) }
 }

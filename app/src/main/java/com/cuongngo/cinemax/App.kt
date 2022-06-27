@@ -8,6 +8,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleObserver
 import com.cuongngo.cinemax.di.appMovieModule
+import com.cuongngo.cinemax.response.MovieResponse
+import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.roomdb.AppDatabase
 import com.cuongngo.cinemax.roomdb.Dao.GenreDao
 import org.kodein.di.Kodein
@@ -26,6 +28,21 @@ class App : Application(), KodeinAware, LifecycleObserver {
     }
 
     companion object {
+
+        private var genresMovieResponse = GenresMovieResponse(
+            null,
+            null,
+            genres = arrayListOf()
+        )
+
+        var movieTrending = MovieResponse(
+            null,
+            null,
+            null,
+            null,
+            null,
+            results = arrayListOf()
+        )
 
         @Volatile
         private var instance: App? = null
@@ -50,6 +67,18 @@ class App : Application(), KodeinAware, LifecycleObserver {
 
         fun getGenreDatabase() : GenreDao {
             return AppDatabase.getDatabase(getInstance()).genreDao()
+        }
+
+        fun getGenres(): GenresMovieResponse {
+            return genresMovieResponse
+        }
+
+        fun setGenres(genresMovieResponse: GenresMovieResponse){
+            this.genresMovieResponse = genresMovieResponse
+        }
+
+        fun setListTrending(movieResponse: MovieResponse){
+            this.movieTrending = movieResponse
         }
 
     }

@@ -4,20 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemHorizontalMovieBinding
-import com.cuongngo.cinemax.response.GenresMovie
 import com.cuongngo.cinemax.response.MultiMedia
 import com.cuongngo.cinemax.response.MultiMediaResponse
+import com.cuongngo.cinemax.utils.Constants
 
 class MovieHorizontalAdapter(
     listMedia: ArrayList<MultiMedia>,
-    listGenre: ArrayList<GenresMovie>?,
     private val onItemClick: ((MultiMedia) -> Unit)? = null
 ) : RecyclerView.Adapter<MovieHorizontalAdapter.MovieHorizontalViewHolder>() {
 
     private val listMedia = listMedia
-    private val listGenre = listGenre
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHorizontalViewHolder {
         return MovieHorizontalViewHolder(
@@ -32,7 +31,7 @@ class MovieHorizontalAdapter(
 
     override fun onBindViewHolder(holder: MovieHorizontalViewHolder, position: Int) {
         val binding = holder.movieHorizontalMovieBinding
-        var media: MultiMedia? = if (listMedia[position].media_type == "person") {
+        var media: MultiMedia? = if (listMedia[position].media_type == Constants.MediaType.TV) {
             listMedia[position].known_for?.firstOrNull()
         } else listMedia[position]
 
@@ -42,7 +41,7 @@ class MovieHorizontalAdapter(
             onItemClick?.invoke(media ?: return@setOnClickListener)
         }
         val genreID = media?.genre_ids?.firstOrNull()
-        listGenre?.forEach {
+        App.getGenres().genres?.forEach {
             if (it.id == genreID) {
                 binding.tvGenre.text = it.name.toString()
             }

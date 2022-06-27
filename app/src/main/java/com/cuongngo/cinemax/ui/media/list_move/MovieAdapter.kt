@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemMovieBinding
-import com.cuongngo.cinemax.response.GenresMovie
+import com.cuongngo.cinemax.response.movie_response.GenresMovie
 import com.cuongngo.cinemax.response.Movie
 
 class MovieAdapter (
