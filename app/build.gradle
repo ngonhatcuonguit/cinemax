@@ -108,6 +108,9 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.4.2'
     implementation 'androidx.room:room-ktx:2.4.2'
 
+    //Page indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
     // Multi view type
 //    implementation "dev.ahamed.mva3:adapter:3.0.0"
 //    implementation "dev.ahamed.mva3:ext-databinding:3.0.0"
