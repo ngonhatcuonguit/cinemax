@@ -84,6 +84,29 @@
                     app:layout_constraintBottom_toBottomOf="@id/btn_next" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </carbon.widget.FrameLayout>
+
+        <carbon.widget.FrameLayout
+            android:id="@+id/fl_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="@dimen/_24dp"
+            android:background="#52252836"
+            app:carbon_cornerRadius="16dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Skip"
+                android:textColor="@color/blue_accent"
+                />
 
         </carbon.widget.FrameLayout>
 

@@ -22,6 +22,12 @@ class OnBoardActivity : BaseActivity<ActivityOnboardBinding>() {
             )
             adapter = OnBoardAdapter(listOnBoard)
         }
+
+        binding.flSkip.setOnClickListener {
+            setShowOnBoard(true)
+            gotoMain()
+        }
+
         binding.btnNext.setOnClickListener {
             val current = binding.vpOnBoard.currentItem
             val total = binding.vpOnBoard.adapter?.itemCount ?: 3
