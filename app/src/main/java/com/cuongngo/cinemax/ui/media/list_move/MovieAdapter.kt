@@ -12,12 +12,10 @@ import com.cuongngo.cinemax.response.Movie
 
 class MovieAdapter (
     listMovie: ArrayList<Movie>,
-    listGenres: List<GenresMovie>?,
     private val selectedListener: SelectedListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val listMovie = listMovie
-    private val listGenres = listGenres
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieViewHolder(
@@ -38,7 +36,7 @@ class MovieAdapter (
 
         val genre = movie.genre_ids?.firstOrNull()
 
-        listGenres?.forEach {
+        App.getGenres().genres?.forEach {
             if (it.id == genre){
                 binding.tvGenre.text = it.name ?: ""
             }

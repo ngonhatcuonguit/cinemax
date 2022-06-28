@@ -12,6 +12,7 @@ import com.cuongngo.cinemax.response.MediaDetailResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.media.MediaViewModel
 import com.cuongngo.cinemax.utils.loadImagePath
+import com.cuongngo.cinemax.utils.roundRating
 
 class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, MediaViewModel>() {
 
@@ -106,25 +107,25 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
         if (mediaDetail.media_type == "tv") {
             val tvDetail = mediaDetail.tvDetail
             with(binding) {
-                loadImagePath(ivPoster, tvDetail?.poster_path)
+                loadImagePath(ivPosterBackground, tvDetail?.poster_path)
                 loadImagePath(cvAvatar, tvDetail?.poster_path)
                 layoutAppBar.tvTitle.text = tvDetail?.name.toString()
                 tvReleaseYear.text = tvDetail?.first_air_date.toString()
                 tvDuration.text = tvDetail?.last_episode_to_air?.runtime.toString() + " Minutes"
                 tvCategory.text = tvDetail?.genres?.firstOrNull()?.name
-                tvRating.text = tvDetail?.vote_average.toString()
+                roundRating(tvRating, tvDetail?.vote_average ?: 0F)
             }
 
         } else {
             val movieDetail = mediaDetail.movieDetail
             with(binding) {
-                loadImagePath(ivPoster, movieDetail?.poster_path)
+                loadImagePath(ivPosterBackground, movieDetail?.poster_path)
                 loadImagePath(cvAvatar, movieDetail?.poster_path)
                 layoutAppBar.tvTitle.text = movieDetail?.title.toString()
                 tvReleaseYear.text = movieDetail?.release_date.toString()
                 tvDuration.text = movieDetail?.runtime.toString() + " Minutes"
                 tvCategory.text = movieDetail?.genres?.firstOrNull()?.name
-                tvRating.text = movieDetail?.vote_average.toString()
+                roundRating(tvRating, movieDetail?.vote_average ?: 0F)
             }
         }
     }

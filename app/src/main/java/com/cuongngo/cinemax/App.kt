@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleObserver
 import com.cuongngo.cinemax.di.appMovieModule
 import com.cuongngo.cinemax.response.MovieResponse
+import com.cuongngo.cinemax.response.movie_response.GenresMovie
 import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.roomdb.AppDatabase
 import com.cuongngo.cinemax.roomdb.Dao.GenreDao
@@ -29,11 +30,13 @@ class App : Application(), KodeinAware, LifecycleObserver {
 
     companion object {
 
-        private var genresMovieResponse = GenresMovieResponse(
+        var genresMovieResponse = GenresMovieResponse(
             null,
             null,
             genres = arrayListOf()
         )
+
+        var genreSelected: GenresMovie? = null
 
         var movieTrending = MovieResponse(
             null,
@@ -71,10 +74,6 @@ class App : Application(), KodeinAware, LifecycleObserver {
 
         fun getGenres(): GenresMovieResponse {
             return genresMovieResponse
-        }
-
-        fun setGenres(genresMovieResponse: GenresMovieResponse){
-            this.genresMovieResponse = genresMovieResponse
         }
 
         fun setListTrending(movieResponse: MovieResponse){

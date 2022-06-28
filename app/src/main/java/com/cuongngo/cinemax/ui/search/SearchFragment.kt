@@ -4,6 +4,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
+import com.cuongngo.cinemax.App.Companion.genreSelected
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
@@ -24,7 +25,6 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
     override val viewModel: SearchViewModel by kodeinViewModel()
 
     private lateinit var genreAdapter: GenreAdapter
-    private var genreSelected: GenresMovie? = null
     private var listGenres = App.getGenres().genres
     private lateinit var movieAdapter: MovieAdapter
     private var totalPages: Int = 1
@@ -73,10 +73,6 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
             arrayListOf(),
             this
         )
-        if (genreSelected == null) {
-            listGenres?.firstOrNull()?.is_selected = true
-            genreSelected = listGenres?.firstOrNull()
-        }
         genreAdapter.submitListGenres(listGenres as ArrayList<GenresMovie>)
         binding.rcvListGenres.adapter = genreAdapter
     }
@@ -108,7 +104,6 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
 
         movieAdapter = MovieAdapter(
             arrayListOf(),
-            listGenres,
             this
         )
 

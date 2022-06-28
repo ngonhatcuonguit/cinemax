@@ -6,6 +6,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.cinemax.App
+import com.cuongngo.cinemax.App.Companion.genreSelected
+import com.cuongngo.cinemax.App.Companion.genresMovieResponse
 import com.cuongngo.cinemax.App.Companion.setListTrending
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
@@ -35,15 +37,10 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
 
     override fun inflateLayout() = R.layout.home_fragment
 
-    private val sliderHandle = Handler()
     private lateinit var movieAdapter: MovieAdapter
     private lateinit var genreAdapter: GenreAdapter
-    private var currentKeyword: String? = null
     private var totalPages: Int = 1
     private var listLocalGenres: List<GenreEntity> = emptyList()
-    private var listGenres: ArrayList<GenresMovie> = arrayListOf()
-    private var genreSelected: GenresMovie? = null
-    private var genresMovieResponse: GenresMovieResponse? = null
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun setUp() {
@@ -107,9 +104,8 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
                     showProgressDialog()
                 },
                 onSuccess = {
-                    listGenres = it.data?.genres ?: return@onResultReceived
-                    genresMovieResponse = it.data
-                    setupRcvCategories(it.data.genres.orEmpty())
+                    genresMovieResponse = it.data ?: return@onResultReceived
+                    setupRcvCategories()
 //                    setupGenreLocal(it.data.genres)
                     viewModel.getGenresTV()
                     viewModel.getPopularMovie()
@@ -142,9 +138,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
             it.onResultReceived(
                 onLoading = {},
                 onSuccess = {
-                    genresMovieResponse?.addGenres(it.data?.genres.orEmpty() as ArrayList<GenresMovie>)
-                    App.setGenres(genresMovieResponse ?: return@onResultReceived)
-                    WTF("genres ${App.getGenres()}")
+                    genresMovieResponse.addGenres(it.data?.genres.orEmpty() as ArrayList<GenresMovie>)
                 },
                 onError = {}
             )
@@ -180,7 +174,6 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
 
         movieAdapter = MovieAdapter(
             arrayListOf(),
-            listGenres,
             this
         )
 
@@ -192,16 +185,16 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
 
     }
 
-    private fun setupRcvCategories(listGenres: List<GenresMovie>) {
+    private fun setupRcvCategories() {
         genreAdapter = GenreAdapter(
             arrayListOf(),
             this
         )
         if (genreSelected == null) {
-            listGenres.firstOrNull()?.is_selected = true
-            genreSelected = listGenres.firstOrNull()
+            genresMovieResponse.genres?.firstOrNull()?.is_selected = true
+            genreSelected = genresMovieResponse.genres?.firstOrNull()
         }
-        genreAdapter.submitListGenres(listGenres)
+        genreAdapter.submitListGenres(genresMovieResponse.genres ?: return)
         binding.rcvListGenres.adapter = genreAdapter
     }
 
@@ -214,14 +207,15 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
 
     override fun onSelectedListener(genre: GenresMovie) {
         genreSelected = genre
-        val oldData = listGenres.find { it.is_selected }
-        val oldIndex = listGenres.indexOf(oldData)
-        val index = listGenres.indexOf(genre)
+        val genreList = genresMovieResponse.genres
+        val oldData = genreList?.find { it.is_selected }
+        val oldIndex = genreList?.indexOf(oldData)
+        val index = genreList?.indexOf(genre)
 
         oldData?.is_selected = false
         genre.is_selected = true
-        listGenres[oldIndex] = (oldData ?: return)
-        listGenres[index] = genre
+        genreList!![oldIndex!!] = (oldData ?: return)
+        genreList[index!!] = genre
         genreAdapter.notifyItemChanged(index)
         genreAdapter.notifyItemChanged(oldIndex)
     }
