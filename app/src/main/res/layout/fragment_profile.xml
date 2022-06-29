@@ -156,19 +156,12 @@
                         android:text="Member"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_member"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_member"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_member"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_member"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_member"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_member"
-                        app:srcCompat="@drawable/ic_arrow_right" />
+                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_member"/>
 
                     <View
                         android:id="@+id/view_space_account"
@@ -211,20 +204,12 @@
                         android:text="Change Password"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_change_password"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_change_password"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_change_password"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_change_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_change_password"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_change_password"
-                        app:srcCompat="@drawable/ic_arrow_right" />
-
 
                 </carbon.widget.ConstraintLayout>
 
@@ -284,19 +269,12 @@
                         android:text="Notification"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_notify"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_notify"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_notify"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_notify"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_notify"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_notify"
-                        app:srcCompat="@drawable/ic_arrow_right" />
 
                     <View
                         android:id="@+id/view_space_notify"
@@ -339,19 +317,12 @@
                         android:text="Language"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_language"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_language"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_language"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_language"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_language"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_language"
-                        app:srcCompat="@drawable/ic_arrow_right" />
 
                     <View
                         android:id="@+id/view_space_language"
@@ -394,19 +365,12 @@
                         android:text="Country"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_country"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_country"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_country"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_country"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_country"
-                        app:srcCompat="@drawable/ic_arrow_right" />
 
                     <View
                         android:id="@+id/view_space_clear_cache"
@@ -449,20 +413,12 @@
                         android:text="Clear Cache"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_clear_cache"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_clear_cache"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_clear_cache"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_clear_cache"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_clear_cache"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_clear_cache"
-                        app:srcCompat="@drawable/ic_arrow_right" />
-
 
                 </carbon.widget.ConstraintLayout>
 
@@ -522,19 +478,12 @@
                         android:text="Legal and Policies"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_legal"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_legal"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_legal"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_legal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_legal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_legal"
-                        app:srcCompat="@drawable/ic_arrow_right" />
 
                     <View
                         android:id="@+id/view_space_legal"
@@ -577,19 +526,12 @@
                         android:text="Help and Feedback"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_help"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_help"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_help"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_help"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_help"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_help"
-                        app:srcCompat="@drawable/ic_arrow_right" />
 
                     <View
                         android:id="@+id/view_space_help"
@@ -632,19 +574,12 @@
                         android:text="About Us"
                         android:textColor="@color/white"
                         android:textSize="14sp"
+                        android:paddingVertical="8dp"
+                        android:drawableEnd="@drawable/ic_arrow_right"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_bg_about"
                         app:layout_constraintTop_toTopOf="@id/iv_bg_about"
                         app:layout_constraintBottom_toBottomOf="@id/iv_bg_about"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_arrow_about"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_bg_about"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/iv_bg_about"
-                        app:srcCompat="@drawable/ic_arrow_right" />
 
                 </carbon.widget.ConstraintLayout>
 
@@ -655,7 +590,7 @@
                     android:text="Log Out"
                     android:textColor="@color/blue_accent"
                     android:textSize="16sp"
-                    app:carbon_cornerRadius="32dp"
+                    app:carbon_cornerRadius="38dp"
                     android:textStyle="bold"
                     app:carbon_strokeWidth="1dp"
                     app:carbon_stroke="@color/blue_accent"

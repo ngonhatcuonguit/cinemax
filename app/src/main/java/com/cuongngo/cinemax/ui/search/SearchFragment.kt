@@ -17,6 +17,7 @@ import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
 import com.cuongngo.cinemax.ui.media.detail.MediaDetailActivity
 import com.cuongngo.cinemax.ui.media.list_move.MovieAdapter
+import com.cuongngo.cinemax.ui.personal.PersonalAdapter
 import com.cuongngo.cinemax.utils.Constants
 
 class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(),
@@ -27,7 +28,9 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
     private lateinit var genreAdapter: GenreAdapter
     private var listGenres = App.getGenres().genres
     private lateinit var movieAdapter: MovieAdapter
-    private var totalPages: Int = 1
+    private lateinit var personalAdapter: PersonalAdapter
+    private var movieTotalPages: Int = 1
+    private var personalTotalPages: Int = 1
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun inflateLayout(): Int = R.layout.fragment_search
@@ -64,8 +67,9 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
 
         setupRcvCategories()
         setupRecycleViewListMovie()
+        setupRecycleViewListPersonal()
         viewModel.getPopularMovie()
-
+        viewModel.getPopularPersonal()
     }
 
     private fun setupRcvCategories() {
@@ -98,7 +102,7 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
 
         scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                viewModel.loadMorePopular(totalPages)
+                viewModel.loadMoreMoviePopular(movieTotalPages)
             }
         }
 
@@ -107,8 +111,29 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
             this
         )
 
-        binding.rcvListRecommend.apply {
+        binding.rcvListMovieRecommend.apply {
             adapter = movieAdapter
+            layoutManager = gridLayoutManager
+            addOnScrollListener(scrollListener)
+        }
+
+    }
+
+    private fun setupRecycleViewListPersonal(){
+        val gridLayoutManager =
+            GridLayoutManager(requireActivity(), 1, RecyclerView.HORIZONTAL, false)
+
+        scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.loadMorePersonalPopular(personalTotalPages)
+            }
+        }
+
+        personalAdapter = PersonalAdapter(
+            arrayListOf()
+        )
+        binding.rcvListPopularPersonal.apply {
+            adapter =personalAdapter
             layoutManager = gridLayoutManager
             addOnScrollListener(scrollListener)
         }
@@ -119,15 +144,29 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding, SearchViewModel>(
         observeLiveDataChanged(viewModel.listPopularMovie) {
             it.onResultReceived(
                 onLoading = {
-                    binding.flProgressBar.isVisible = true
+                    binding.flProgressBarMoviePopular.isVisible = true
                 },
                 onSuccess = {
-                    binding.flProgressBar.isVisible = false
+                    binding.flProgressBarMoviePopular.isVisible = false
                     movieAdapter.submitListMovie(it.data?.results ?: return@onResultReceived)
-                    totalPages = it.data.total_pages ?: return@onResultReceived
+                    movieTotalPages = it.data.total_pages ?: return@onResultReceived
                 },
                 onError = {
-                    binding.flProgressBar.isVisible = false
+                    binding.flProgressBarMoviePopular.isVisible = false
+                }
+            )
+        }
+        observeLiveDataChanged(viewModel.popularPersonal){
+            it.onResultReceived(
+                onLoading = {
+
+                },
+                onSuccess = {
+                    personalAdapter.submitList(it.data?.results ?: return@onResultReceived)
+                    personalTotalPages = it.data?.total_pages ?:return@onResultReceived
+                },
+                onError = {
+
                 }
             )
         }

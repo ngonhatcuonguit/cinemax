@@ -41,4 +41,8 @@ class MediaRemoteDataSource(private val apiService: MediaApi) : BaseRemoteDataSo
         time_window: String,
         page: Int,
     ) = getResult { apiService.getTrendingMovie(media_type, time_window, page) }
+
+    suspend fun getPopularPersonal(
+        page: Int,
+    ) = getResult { apiService.getPopularPersonal(page) }
 }

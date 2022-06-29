@@ -4,6 +4,7 @@ import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
+import com.cuongngo.cinemax.response.PersonalResponse
 import com.cuongngo.cinemax.response.tv_response.TvDetailResponse
 import com.cuongngo.cinemax.services.network.BaseResult
 import com.cuongngo.cinemax.services.remote.MediaRemoteDataSource
@@ -59,6 +60,12 @@ class MediaRepository(private val mediaRemoteDataSource: MediaRemoteDataSource) 
         page: Int,
     ): BaseResult<MovieResponse> {
         return mediaRemoteDataSource.getTrendingMovie(media_type, time_window, page)
+    }
+
+    suspend fun getPopularPersonal(
+        page: Int
+    ): BaseResult<PersonalResponse> {
+        return mediaRemoteDataSource.getPopularPersonal(page)
     }
 
 }

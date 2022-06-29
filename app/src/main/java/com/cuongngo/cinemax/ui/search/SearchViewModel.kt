@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.cuongngo.cinemax.base.viewmodel.BaseViewModel
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
+import com.cuongngo.cinemax.response.PersonalResponse
 import com.cuongngo.cinemax.services.network.BaseResult
 import com.cuongngo.cinemax.services.repository.MediaRepository
 import com.cuongngo.cinemax.utils.Constants
@@ -24,7 +25,11 @@ class SearchViewModel(private val mediaRepository: MediaRepository) : BaseViewMo
     private val _trendingMedia = MutableLiveData<BaseResult<MultiMediaResponse>>()
     val trendingMedia: LiveData<BaseResult<MultiMediaResponse>> get() = _trendingMedia
 
+    private val _popularPersonal = MutableLiveData<BaseResult<PersonalResponse>>()
+    val popularPersonal: LiveData<BaseResult<PersonalResponse>> get() = _popularPersonal
+
     var page: Int = 1
+    var pagePersonal: Int = 1
     var preKeyword: String? = null
     var keyword: String? = null
 
@@ -66,6 +71,17 @@ class SearchViewModel(private val mediaRepository: MediaRepository) : BaseViewMo
         }
     }
 
+    fun getPopularPersonal() {
+        _popularPersonal.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _popularPersonal.postValue(
+                    mediaRepository.getPopularPersonal(pagePersonal)
+                )
+            }
+        }
+    }
+
     fun getTrending() {
         _trendingMedia.value = BaseResult.loading(null)
         viewModelScope.launch {
@@ -92,10 +108,16 @@ class SearchViewModel(private val mediaRepository: MediaRepository) : BaseViewMo
         }
     }
 
-    fun loadMorePopular(maxPage: Int){
+    fun loadMoreMoviePopular(maxPage: Int){
         if (page < maxPage){
-            page += page
+            page++
             getPopularMovie()
+        }
+    }
+    fun loadMorePersonalPopular(maxPage: Int){
+        if (pagePersonal < maxPage){
+            pagePersonal++
+            getPopularPersonal()
         }
     }
 

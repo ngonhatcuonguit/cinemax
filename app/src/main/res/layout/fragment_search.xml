@@ -97,18 +97,17 @@
                     layout="@layout/item_horizontal"
                     android:layout_marginHorizontal="24dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_today_title"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/tv_today_title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_popular_title"
+                    android:id="@+id/tv_popular_personal_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_24dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="24dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Recommend for you"
+                    android:text="Popular personal"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -116,7 +115,7 @@
                     app:layout_constraintTop_toBottomOf="@id/layout_today" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_view_all_popular"
+                    android:id="@+id/tv_view_all_popular_personal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_24dp"
@@ -125,12 +124,12 @@
                     android:text="See All"
                     android:textColor="#12CDD9"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_popular_title"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_popular_personal_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_popular_title" />
+                    app:layout_constraintTop_toTopOf="@id/tv_popular_personal_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcv_list_recommend"
+                    android:id="@+id/rcv_list_popular_personal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -139,19 +138,61 @@
                     android:paddingVertical="6dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_popular_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_popular_personal_title"
+                    app:spanCount="1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_movie_popular_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_24dp"
+                    android:layout_marginTop="24dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Recommend for you"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rcv_list_popular_personal" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_view_all_movie_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_24dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="See All"
+                    android:textColor="#12CDD9"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_movie_popular_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_movie_popular_title" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_list_movie_recommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingVertical="6dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_movie_popular_title"
                     app:spanCount="1" />
 
                 <FrameLayout
-                    android:id="@+id/fl_progress_bar"
+                    android:id="@+id/fl_progress_bar_movie_popular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/rcv_list_recommend"
+                    app:layout_constraintBottom_toBottomOf="@id/rcv_list_movie_recommend"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/rcv_list_recommend">
+                    app:layout_constraintTop_toTopOf="@id/rcv_list_movie_recommend">
 
                     <ProgressBar
                         android:id="@+id/progress_bar_list_movie"
