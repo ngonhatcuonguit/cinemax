@@ -5,6 +5,7 @@ import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
 import com.cuongngo.cinemax.response.MultiMediaResponse
 import com.cuongngo.cinemax.response.PersonalResponse
+import com.cuongngo.cinemax.response.movie_response.VideoResponse
 import com.cuongngo.cinemax.response.tv_response.TvDetailResponse
 import com.cuongngo.cinemax.services.network.invoker.ApiClientFactory
 import retrofit2.Response
@@ -66,6 +67,12 @@ interface MediaApi {
     suspend fun getPopularPersonal(
         @Query("page") page: Int? = null
     ): Response<PersonalResponse>
+
+    //get list videos
+    @GET("movie/{movie_id}/videos")
+    suspend fun getListVideos(
+        @Path("movie_id") movie_id: String
+    ): Response<VideoResponse>
 
     companion object {
         operator fun invoke(): MediaApi{

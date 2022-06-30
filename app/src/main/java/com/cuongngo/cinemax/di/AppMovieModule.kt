@@ -9,6 +9,7 @@ import com.cuongngo.cinemax.services.repository.MediaRepository
 import com.cuongngo.cinemax.ui.home.HomeViewModel
 import com.cuongngo.cinemax.ui.media.MediaViewModel
 import com.cuongngo.cinemax.ui.search.SearchViewModel
+import com.cuongngo.cinemax.ui.youtube.VideoViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -33,5 +34,8 @@ val appMovieModule = Kodein.Module(APP_MODULE, false) {
     }
     bindViewModel<SearchViewModel>() with provider {
         SearchViewModel(instance())
+    }
+    bindViewModel<VideoViewModel>() with provider {
+        VideoViewModel(instance())
     }
 }

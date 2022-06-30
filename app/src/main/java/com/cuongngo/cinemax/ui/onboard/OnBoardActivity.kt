@@ -96,6 +96,10 @@ class OnBoardActivity : BaseActivity<ActivityOnboardBinding>() {
         }
     }
 
+    override fun onBackPressed() {
+        //do nothing
+    }
+
     override fun setUpObserver() {
 
     }

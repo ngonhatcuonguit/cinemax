@@ -48,6 +48,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         )
     }
 
+    override fun onBackPressed() {
+        //do nothing
+    }
+
     override fun setUp() {
 
     }

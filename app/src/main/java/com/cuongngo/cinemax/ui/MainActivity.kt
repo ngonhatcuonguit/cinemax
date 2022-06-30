@@ -98,6 +98,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    override fun onBackPressed() {
+        //do nothing
+    }
+
     override fun setUpObserver() {
 
     }

@@ -11,6 +11,7 @@ import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.MediaDetailResponse
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.media.MediaViewModel
+import com.cuongngo.cinemax.ui.youtube.YoutubePlayerActivity
 import com.cuongngo.cinemax.utils.loadImagePath
 import com.cuongngo.cinemax.utils.roundRating
 
@@ -63,6 +64,13 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
                 setShowMoreTextColor(App.getResources().getColor(R.color.blue_accent))
                 addShowLessText("Less")
                 addShowMoreText("More")
+            }
+
+            tvPlay.setOnClickListener {
+                startActivity(YoutubePlayerActivity.newInstance(
+                    this@MediaDetailActivity,
+                    mediaID
+                ))
             }
         }
     }

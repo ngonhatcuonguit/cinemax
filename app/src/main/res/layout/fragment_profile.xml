@@ -590,7 +590,7 @@
                     android:text="Log Out"
                     android:textColor="@color/blue_accent"
                     android:textSize="16sp"
-                    app:carbon_cornerRadius="38dp"
+                    app:carbon_cornerRadius="28dp"
                     android:textStyle="bold"
                     app:carbon_strokeWidth="1dp"
                     app:carbon_stroke="@color/blue_accent"

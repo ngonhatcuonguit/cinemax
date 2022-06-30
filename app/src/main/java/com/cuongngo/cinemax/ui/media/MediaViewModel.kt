@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.cuongngo.cinemax.base.viewmodel.BaseViewModel
 import com.cuongngo.cinemax.response.MovieDetailResponse
 import com.cuongngo.cinemax.response.MovieResponse
+import com.cuongngo.cinemax.response.movie_response.VideoResponse
 import com.cuongngo.cinemax.response.tv_response.TvDetailResponse
 import com.cuongngo.cinemax.services.network.BaseResult
 import com.cuongngo.cinemax.services.repository.MediaRepository

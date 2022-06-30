@@ -34,7 +34,7 @@ class PersonalAdapter(
     override fun onBindViewHolder(holder: PersonalViewHolder, position: Int) {
         val personal = listPersonal[position]
         holder.itemPersonal.personal = personal
-        if (position == 0){
+        if (personal == listPersonal.firstOrNull()){
             val paddingStart = App.getResources().getDimensionPixelOffset(R.dimen._24dp)
             val paddingEnd = App.getResources().getDimensionPixelOffset(R.dimen._12dp)
             holder.itemPersonal.clContainer.setPadding(paddingStart,0,paddingEnd,0)

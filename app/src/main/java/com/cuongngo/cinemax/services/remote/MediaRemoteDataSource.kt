@@ -45,4 +45,8 @@ class MediaRemoteDataSource(private val apiService: MediaApi) : BaseRemoteDataSo
     suspend fun getPopularPersonal(
         page: Int,
     ) = getResult { apiService.getPopularPersonal(page) }
+
+    suspend fun getListVideo(
+        movie_id: String,
+    ) = getResult { apiService.getListVideos(movie_id) }
 }
