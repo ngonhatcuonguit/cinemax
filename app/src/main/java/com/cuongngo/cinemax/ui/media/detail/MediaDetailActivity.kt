@@ -71,6 +71,7 @@ class MediaDetailActivity : AppBaseActivityMVVM<ActivityDetailMovieBinding, Medi
                     this@MediaDetailActivity,
                     mediaID
                 ))
+
             }
         }
     }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.cuongngo.cinemax.App
 import com.cuongngo.cinemax.R
 import com.cuongngo.cinemax.databinding.ItemVideoBinding
 import com.cuongngo.cinemax.response.movie_response.Video
@@ -11,6 +12,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 
 class VideoAdapter(
     listVideo: List<Video>
@@ -39,7 +41,7 @@ class VideoAdapter(
         binding.video = video
         binding.youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady( youTubePlayer: YouTubePlayer) {
-                youTubePlayer.cueVideo(video.key.orEmpty(), 0f)
+                youTubePlayer.loadVideo(video.key.orEmpty(), 0F)
                 youTubePlayer.pause()
             }
         })

@@ -1,6 +1,5 @@
 package com.cuongngo.cinemax.ui.home
 
-import android.os.Handler
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,17 +13,16 @@ import com.cuongngo.cinemax.base.fragment.BaseFragmentMVVM
 import com.cuongngo.cinemax.base.viewmodel.kodeinViewModel
 import com.cuongngo.cinemax.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.cinemax.databinding.HomeFragmentBinding
-import com.cuongngo.cinemax.ext.WTF
 import com.cuongngo.cinemax.ext.observeLiveDataChanged
 import com.cuongngo.cinemax.response.Movie
 import com.cuongngo.cinemax.response.movie_response.GenresMovie
-import com.cuongngo.cinemax.response.movie_response.GenresMovieResponse
 import com.cuongngo.cinemax.roomdb.entity.GenreEntity
 import com.cuongngo.cinemax.services.network.onResultReceived
 import com.cuongngo.cinemax.ui.categories.GenreAdapter
 import com.cuongngo.cinemax.ui.media.detail.MediaDetailActivity
 import com.cuongngo.cinemax.ui.media.list_move.MovieAdapter
 import com.cuongngo.cinemax.ui.search.SearchActivity
+import com.cuongngo.cinemax.ui.search.SearchFragment
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerAdapter
 import com.cuongngo.cinemax.ui.view_pager.ViewPagerHelper
 import com.cuongngo.cinemax.utils.Constants
@@ -61,6 +59,7 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
             }
         }
         setupRecycleViewListMovie()
+
     }
 
     private val sliderRunnable = Runnable {
@@ -206,6 +205,10 @@ class HomeFragment : BaseFragmentMVVM<HomeFragmentBinding, HomeViewModel>(),
     }
 
     override fun onSelectedListener(genre: GenresMovie) {
+        handleChooseGenre(genre)
+    }
+
+    private fun handleChooseGenre(genre: GenresMovie){
         genreSelected = genre
         val genreList = genresMovieResponse.genres
         val oldData = genreList?.find { it.is_selected }

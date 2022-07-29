@@ -5,7 +5,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark">
+        android:background="@color/dark"
+        android:fitsSystemWindows="true">
 
         <include
             android:id="@+id/layout_app_bar"
@@ -13,19 +14,33 @@
             android:layout_height="wrap_content"
             layout="@layout/layout_app_bar"
             android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_list_video"
+        <carbon.widget.ConstraintLayout
+            android:id="@+id/cl_youtube_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_24dp"
-            android:orientation="vertical"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@id/layout_app_bar"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:carbon_cornerRadius="12dp"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtube_player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:autoPlay="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </carbon.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
