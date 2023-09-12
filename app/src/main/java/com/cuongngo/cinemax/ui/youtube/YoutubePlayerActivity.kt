@@ -36,9 +36,9 @@ class YoutubePlayerActivity : BaseActivity<ActivityListVideoBinding>() {
 
     override fun setUp() {
         videoViewModel.getListVideo(movieID.toString().orEmpty())
-        binding.layoutAppBar.ivBack.setOnClickListener {
-            onBackPressed()
-        }
+//        binding.layoutAppBar.ivBack.setOnClickListener {
+//            onBackPressed()
+//        }
 //        setUpRecycleView()
     }
 

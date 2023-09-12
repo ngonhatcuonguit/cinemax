@@ -48,8 +48,8 @@
             tools:ignore="LockedOrientationActivity"/>
 
         <activity android:name=".ui.youtube.YoutubePlayerActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"/>
-
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+            android:screenOrientation="sensorLandscape"/>
     </application>
 
 </manifest>
